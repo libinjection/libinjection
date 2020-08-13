@@ -1,8 +1,8 @@
 
 # This is a copy of: https://github.com/client9/libinjection/
 
-[![Build Status](https://travis-ci.org/client9/libinjection.svg?branch=master)](https://travis-ci.org/client9/libinjection)
-[![Coverage Status](https://coveralls.io/repos/client9/libinjection/badge.svg?branch=master&service=github)](https://coveralls.io/github/client9/libinjection?branch=master)  [![license](https://img.shields.io/badge/license-BSD_3--Clause-blue.svg?style=flat)](https://raw.githubusercontent.com/client9/libinjection/master/COPYING)
+![CI](https://github.com/libinjection/libinjection/workflows/CI/badge.svg)
+[![license](https://img.shields.io/badge/license-BSD_3--Clause-blue.svg?style=flat)](https://raw.githubusercontent.com/client9/libinjection/master/COPYING)
 
 libinjection
 ============
@@ -88,7 +88,6 @@ https://travis-ci.org/client9/libinjection tests the following:
 - [x] static analysis using [clang static analyzer](http://clang-analyzer.llvm.org)
 - [x] static analysis using [cppcheck](https://github.com/danmar/cppcheck)
 - [x] checks for memory errors using [valgrind](http://valgrind.org/)
-- [x] code coverage online using [coveralls.io](https://coveralls.io/github/client9/libinjection)
 
 LICENSE
 =============
