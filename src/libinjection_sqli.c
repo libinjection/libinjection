@@ -1202,7 +1202,7 @@ const char* libinjection_version()
     return LIBINJECTION_VERSION;
 }
 
-int libinjection_sqli_tokenize(struct libinjection_sqli_state * sf)
+int libinjection_sqli_tokenize(struct libinjection_sqli_state *sf)
 {
     pt2Function fnptr;
     size_t *pos = &sf->pos;

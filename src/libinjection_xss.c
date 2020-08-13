@@ -20,7 +20,7 @@ static int is_black_tag(const char* s, size_t len);
 static int is_black_url(const char* s, size_t len);
 static int cstrcasecmp_with_null(const char *a, const char *b, size_t n);
 static int html_decode_char_at(const char* src, size_t len, size_t* consumed);
-static int htmlencode_startswith(const char* prefix, const char *src, size_t n);
+static int htmlencode_startswith(const char *a/* prefix */, const char *b /* src */, size_t n);
 
 
 typedef struct stringtype {

@@ -29,7 +29,7 @@
 /* prototypes */
 
 static int h5_skip_white(h5_state_t* hs);
-static int h5_is_white(char c);
+static int h5_is_white(char ch);
 static int h5_state_eof(h5_state_t* hs);
 static int h5_state_data(h5_state_t* hs);
 static int h5_state_tag_open(h5_state_t* hs);
