@@ -503,12 +503,7 @@ static size_t parse_slash(struct libinjection_sqli_state * sf)
      * skip over initial '/x'
      */
     ptr = memchr2(cur + 2, slen - (pos + 2), '*', '/');
-
-    /*
-     * (ptr == NULL) causes false positive in cppcheck 1.61
-     * casting to type seems to fix it
-     */
-    if (ptr == (const char*) NULL) {
+    if (ptr == NULL) {
         /* till end of line */
         clen = slen - pos;
     } else {
@@ -525,7 +520,10 @@ static size_t parse_slash(struct libinjection_sqli_state * sf)
      *  are an automatic black ban!
      */
 
-    if (memchr2(cur + 2, (size_t)(ptr - (cur + 1)), '/', '*') !=  NULL) {
+    if (
+        ptr != NULL &&
+        memchr2(cur + 2, (size_t)(ptr - (cur + 1)), '/', '*') !=  NULL
+    ) {
         ctype = TYPE_EVIL;
     } else if (is_mysql_comment(cs, slen, pos)) {
         ctype = TYPE_EVIL;
