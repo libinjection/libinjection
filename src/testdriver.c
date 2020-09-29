@@ -62,7 +62,7 @@ size_t print_string(char* buf, size_t len, stoken_t* t)
 
 size_t print_var(char* buf, size_t len, stoken_t* t)
 {
-    int slen = 0;
+    int slen;
     if (t->count >= 1) {
         slen = sprintf(buf + len, "%c", '@');
         assert(slen >= 0);
