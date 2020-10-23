@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # pylint: disable=C0103,R0911,R0912,R0915
 # disable short-variable-names, too many branches, returns, statements
 """
@@ -412,7 +412,7 @@ def main():
         mutator.permute(line.strip())
 
     for fingerprint in mutator.aslist():
-        print fingerprint
+        print(fingerprint)
 
 
 if __name__ == '__main__':
