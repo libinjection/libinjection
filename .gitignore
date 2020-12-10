@@ -44,3 +44,5 @@ stamp-h1
 *.lo
 *.gcno
 *.gcda
+
+.idea
