@@ -6,12 +6,6 @@
 
 
 
-# This is a copy of: https://github.com/client9/libinjection/
-
-
-libinjection
-============
-
 SQL / SQLI tokenizer parser analyzer. For
 
 * C and C++
