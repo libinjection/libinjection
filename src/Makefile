@@ -1,10 +1,10 @@
 
-AR=ar -r
+AR ?= ar
 # MAC
 # AR=libtool -static
 
-CC=cc
-LD=ld
+CC ?= cc
+LD ?= ld
 CFLAGS=-Wall -Wextra -Werror -pedantic -ansi -g -O3 -fPIC
 
 INSTALL=install
@@ -67,7 +67,7 @@ ${SHAREDLIB}: ${OBJECTS}
 
 ${STATICLIB}: ${OBJECTS}
 	rm -f ${STATICLIB}
-	${AR} ${STATICLIB} ${OBJECTS}
+	${AR} -r ${STATICLIB} ${OBJECTS}
 
 check: ${TESTDRIVERS}
 	@./test-driver.sh test-unit.sh
