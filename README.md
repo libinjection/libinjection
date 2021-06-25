@@ -13,7 +13,7 @@ SQL / SQLI tokenizer parser analyzer. For
 * [Python](https://libinjection.client9.com/doc-sqli-python)
 * [Lua](/lua)
 * [Java](https://github.com/jeonglee/Libinjection) (external port)
-* [LuaJIT/FFI] (https://github.com/p0pr0ck5/lua-ffi-libinjection) (external port)
+* [LuaJIT/FFI](https://github.com/p0pr0ck5/lua-ffi-libinjection) (external port)
 
 See
 [https://www.client9.com/](https://www.client9.com/)
@@ -62,7 +62,7 @@ More advanced samples:
 VERSION INFORMATION
 ===================
 
-See [CHANGELOG](/CHANGELOG) for details.
+See [CHANGELOG](CHANGELOG.md) for details.
 
 Versions are listed as "major.minor.point"
 
