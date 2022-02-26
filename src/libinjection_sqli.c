@@ -14,11 +14,10 @@
 #include <assert.h>
 #include <stddef.h>
 
+#include "version.h"
 #include "libinjection.h"
 #include "libinjection_sqli.h"
 #include "libinjection_sqli_data.h"
-
-#define LIBINJECTION_VERSION "3.9.2"
 
 #define LIBINJECTION_SQLI_TOKEN_SIZE  sizeof(((stoken_t*)(0))->val)
 #define LIBINJECTION_SQLI_MAX_TOKENS  5
