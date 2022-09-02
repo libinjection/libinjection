@@ -21,7 +21,7 @@ jobs:
             --enable=all \
             --inconclusive \
             --suppress=variableScope \
-            --suppress=missingIncludeSystem \
+            --suppress=missingInclude \
             --quiet \
             --error-exitcode=1 \
             --template='{file}:{line} {id} {severity} {message}' \
