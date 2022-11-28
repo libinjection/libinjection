@@ -22,7 +22,7 @@ typedef enum {
     MODE_XSS
 } detect_mode_t;
 
-static void usage(const char* argv[]);
+static void usage(const char* program_name);
 size_t modp_rtrim(char* str, size_t len);
 void modp_toprint(char* str, size_t len);
 void test_positive(FILE * fd, const char *fname, detect_mode_t mode,
@@ -192,9 +192,9 @@ void test_positive(FILE * fd, const char *fname, detect_mode_t mode,
     }
 }
 
-static void usage(const char* argv[])
+static void usage(const char* program_name)
 {
-  fprintf(stdout, "usage: %s [flags] [files...]\n", argv[0]);
+  fprintf(stdout, "usage: %s [flags] [files...]\n", program_name);
   fprintf(stdout, "%s\n", "");
   fprintf(stdout, "%s\n", "-q --quiet     : quiet mode");
   fprintf(stdout, "%s\n", "-m --max-fails : number of failed cases need to fail entire test");
@@ -242,7 +242,7 @@ int main(int argc, const char *argv[])
             strcmp(argv[offset], "-h") == 0 ||
 	    strcmp(argv[offset], "-help") == 0 ||
 	    strcmp(argv[offset], "--help") == 0) {
-	  usage(argv);
+	  usage(argv[0]);
 	  exit(0);
 	}
 	  

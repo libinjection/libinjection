@@ -519,21 +519,21 @@ int libinjection_is_xss(const char* s, size_t len, int flags)
  *   - https://github.com/client9/libinjection/issues/150
  *
  */
-int libinjection_xss(const char* s, size_t len)
+int libinjection_xss(const char* s, size_t slen)
 {
-    if (libinjection_is_xss(s, len, DATA_STATE)) {
+    if (libinjection_is_xss(s, slen, DATA_STATE)) {
         return 1;
     }
-    if (libinjection_is_xss(s, len, VALUE_NO_QUOTE)) {
+    if (libinjection_is_xss(s, slen, VALUE_NO_QUOTE)) {
         return 1;
     }
-    if (libinjection_is_xss(s, len, VALUE_SINGLE_QUOTE)) {
+    if (libinjection_is_xss(s, slen, VALUE_SINGLE_QUOTE)) {
         return 1;
     }
-    if (libinjection_is_xss(s, len, VALUE_DOUBLE_QUOTE)) {
+    if (libinjection_is_xss(s, slen, VALUE_DOUBLE_QUOTE)) {
         return 1;
     }
-    if (libinjection_is_xss(s, len, VALUE_BACK_QUOTE)) {
+    if (libinjection_is_xss(s, slen, VALUE_BACK_QUOTE)) {
         return 1;
     }
 
