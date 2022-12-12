@@ -99,7 +99,7 @@ license.  See [COPYING](/COPYING) for details.
 EMBEDDING
 =============
 
-The [src](https://github.com/client9/libinjection/tree/master/src)
+The [src](https://github.com/libinjection/libinjection/tree/master/src)
 directory contains everything, but you only need to copy the following
 into your source tree:
 
