@@ -59,7 +59,7 @@ int libinjection_sqli(const char* s, size_t slen, char fingerprint[]);
  * \return 1 if XSS found, 0 if benign
  *
  */
-injection_result_t libinjection_xss(const char *s, size_t slen);
+injection_result_t libinjection_xss(const char* s, size_t slen);
 
 LIBINJECTION_END_DECLS
 
