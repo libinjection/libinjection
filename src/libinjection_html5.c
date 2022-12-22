@@ -590,9 +590,7 @@ static injection_result_t h5_state_self_closing_start_tag(h5_state_t* hs)
     }
     ch = hs->s[hs->pos];
     if (ch == CHAR_GT) {
-        if (hs->pos <= 0) {
-            return RESULT_ERROR;
-        }
+        assert(hs->pos > 0);
         hs->token_start = hs->s + hs->pos -1;
         hs->token_len = 2;
         hs->token_type = TAG_NAME_SELFCLOSE;
