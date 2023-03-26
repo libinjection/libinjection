@@ -17,11 +17,12 @@ sqlparse_data.json: sqlparse_map.py fingerprints
 libinjection_sqli_data.h: sqlparse2c.py sqlparse_data.json
 	./sqlparse2c.py < sqlparse_data.json > libinjection_sqli_data.h
 
-check: reader testdriver testspeedxss testspeedsqli
+check: reader testdriver testspeedxss testspeedsqli teststackxss
 	@./test-driver.sh test-unit.sh
 	@./test-driver.sh test-samples-sqli-negative.sh
 	@./test-driver.sh test-samples-sqli-positive.sh
 	@./test-driver.sh test-samples-xss-positive.sh
+	@./test-driver.sh teststackxss
 
 analyze:
 	rm -rf /tmp/libinjection-analyze.txt
@@ -50,7 +51,7 @@ libinjection_la_SOURCES = libinjection_sqli.c libinjection_html5.c libinjection_
 
 include_HEADERS= libinjection.h libinjection_sqli.h libinjection_sqli_data.h libinjection_html5.h libinjection_xss.h
 
-noinst_PROGRAMS = html5 sqli fptool reader testdriver testspeedxss testspeedsqli
+noinst_PROGRAMS = html5 sqli fptool reader testdriver testspeedxss testspeedsqli teststackxss
 
 # Samples
 html5_SOURCES = html5_cli.c
@@ -69,3 +70,6 @@ testspeedxss_SOURCES = test_speed_xss.c
 testspeedxss_LDADD = libinjection.la
 testspeedsqli_SOURCES = test_speed_sqli.c
 testspeedsqli_LDADD = libinjection.la
+teststackxss_SOURCES = test_stack_xss.c
+teststackxss_LDADD = libinjection.la
+teststackxss_CFLAGS = -O0

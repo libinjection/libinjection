@@ -20,4 +20,4 @@ libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status libtool
 
 tests: all
-	@cd src && $(MAKE) $(AM_MAKEFLAGS) tests
+	@cd src && $(MAKE) $(AM_MAKEFLAGS) check

@@ -13,7 +13,7 @@
  */
 
 
-int main(int argc, const char *argv[])
+int main()
 {
     const size_t input_size = 10000000;
 
