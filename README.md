@@ -5,7 +5,6 @@
 [![license](https://img.shields.io/badge/license-BSD_3--Clause-blue.svg?style=flat)](https://raw.githubusercontent.com/client9/libinjection/master/COPYING)
 
 
-
 SQL / SQLI tokenizer parser analyzer. For
 
 * C and C++
@@ -15,8 +14,7 @@ SQL / SQLI tokenizer parser analyzer. For
 * [Java](https://github.com/jeonglee/Libinjection) (external port)
 * [LuaJIT/FFI](https://github.com/p0pr0ck5/lua-ffi-libinjection) (external port)
 
-See
-[https://www.client9.com/](https://www.client9.com/)
+See [https://www.client9.com/](https://www.client9.com/)
 for details and presentations.
 
 Simple example:
@@ -96,10 +94,26 @@ Copyright (c) 2012-2016 Nick Galbreath
 Licensed under the standard [BSD 3-Clause](http://opensource.org/licenses/BSD-3-Clause) open source
 license.  See [COPYING](/COPYING) for details.
 
+## BUILD TARGETS
+
+Some of the previous help runners have been merged into the Makefile. E.g.:
+
+* run-clang-asan.sh -> `make clan-asan`
+* make-ci.sh -> `make ci`
+
+If you run `make cppcheck` you will see this warning printed:
+```
+nofile:0 information missingIncludeSystem Cppcheck cannot find all the include files (use --check-config for details)
+```
+You can safely ignore it as it is just saying that standard include files are being ignored (which is the recommended option):
+```
+example1.c:1:0: information: Include file: <stdio.h> not found. Please note: Cppcheck does not need standard library headers to get proper results. [missingIncludeSystem]
+```
+
 EMBEDDING
 =============
 
-The [src](https://github.com/libinjection/libinjection/tree/master/src)
+The [src](/src)
 directory contains everything, but you only need to copy the following
 into your source tree:
 
