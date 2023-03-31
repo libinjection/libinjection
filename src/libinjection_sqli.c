@@ -1282,7 +1282,7 @@ void libinjection_sqli_init(struct libinjection_sqli_state * sf, const char *s, 
 void libinjection_sqli_reset(struct libinjection_sqli_state * sf, int flags)
 {
     void *userdata = sf->userdata;
-    ptr_lookup_fn lookup = sf->lookup;;
+    ptr_lookup_fn lookup = sf->lookup;
 
     if (flags == 0) {
         flags = FLAG_QUOTE_NONE | FLAG_SQL_ANSI;

@@ -13,7 +13,7 @@
  */
 
 
-int main()
+int main(void)
 {
     const size_t input_size = 10000000;
 
