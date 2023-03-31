@@ -84,6 +84,19 @@ AC_ARG_ENABLE([optimize],
                               this option will not change them]),
               [], [enable_optimize=no])
 
+dnl Enable sanitizers.
+AC_ARG_ENABLE([sanitizers],
+              AS_HELP_STRING([--enable-sanitizers],
+                             [enable ASAN ans UBSAN. If CFLAGS are set,
+                              this option will not change them]),
+              [], [enable_sanitizers=no])
+
+dnl Enable fuzzers.
+AC_ARG_ENABLE([fuzzers],
+              AS_HELP_STRING([--enable-fuzzers],
+                             [enable fuzzers; you must use clang compiler]),
+              [], [enable_fuzzers=no])
+
 LT_INIT
 AC_SUBST([LIBTOOL_DEPS])
 
@@ -128,11 +141,38 @@ compiler_flags="-g -fpic -Weverything -Wno-unused-macros -Wno-padded \
                 -Wno-covered-switch-default \
                 -Wno-disabled-macro-expansion -Wno-unused-local-typedefs"
 
+###############################################################################
+# Sanitizers.
+###############################################################################
+AM_CONDITIONAL([SANITIZERS], [test x"$enable_sanitizers" = "xyes"])
+if test "$enable_sanitizers" = yes; then
+  sanitizers_flags="-fsanitize=address,undefined -fno-omit-frame-pointer"
+  sanitizers_link_flags="-fsanitize=address,undefined"
+fi
+
+###############################################################################
+# Fuzzing.
+###############################################################################
+AM_CONDITIONAL([FUZZERS], [test x"$enable_fuzzers" = "xyes"])
+if test "$enable_fuzzers" = yes; then
+  AX_CHECK_COMPILE_FLAG([-fsanitize=fuzzer],,[AC_MSG_ERROR("Fuzzing not supported by the compiler; you must use clang")])
+  LIB_FUZZING_ENGINE=-fsanitize=fuzzer
+  BUILD_FUZZTARGETS=1
+fi
+AM_CONDITIONAL([BUILD_FUZZTARGETS], [test "x$enable_fuzzers" = "xyes"])
+AC_SUBST(BUILD_FUZZTARGETS)
+AC_SUBST(LIB_FUZZING_ENGINE)
+
 # Now that we have all flags, check them
 AS_IF([test "x${ac_cv_env_CFLAGS_set}" = "x"],
       [
-          AX_APPEND_COMPILE_FLAGS([$debug_flags $compiler_flags $optimize_flags $hardened_flags],
+          AX_APPEND_COMPILE_FLAGS([$debug_flags $compiler_flags $optimize_flags $hardened_flags $sanitizers_flags $fuzzers_flags],
           [CFLAGS], [])
+      ])
+AS_IF([test "x${ac_cv_env_LDFLAGS_set}" = "x"],
+      [
+          AX_APPEND_LINK_FLAGS([$sanitizers_link_flags],
+          [LDFLAGS], [])
       ])
 
 if test x$use_gcov = xyes; then
@@ -155,6 +195,7 @@ fi
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
+	src/fuzz/Makefile
     src/version.h
     libinjection.pc
 ])
