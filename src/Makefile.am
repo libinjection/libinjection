@@ -2,6 +2,12 @@ LT_CURRENT=3
 LT_REVISION=9
 LT_AGE=2
 
+CPPCHECK=@CPPCHECK@
+CPPCHECK_FLAGS=--quiet --enable=all --inconclusive --error-exitcode=2 \
+        --std=c89 --std=c++11 \
+        --suppress=variableScope  \
+        --template '{file}:{line} {severity} {id} {message}'
+
 fingerprints.txt: make_parens.py
 	./make_parens.py < fingerprints.txt > fingerprints2.txt
 	mv fingerprints2.txt fingerprints.txt
@@ -25,7 +31,7 @@ check: reader testdriver testspeedxss testspeedsqli teststackxss
 	@./test-driver.sh teststackxss
 
 analyze:
-	rm -rf /tmp/libinjection-analyze.txt
+	$(RM) /tmp/libinjection-analyze.txt
 	$(CLANG) -I. --analyze \
 	-Xanalyzer -analyzer-checker=alpha.core.BoolAssignment \
 	-Xanalyzer -analyzer-checker=alpha.core.CastSize \
@@ -42,6 +48,14 @@ analyze:
 	-Xanalyzer -analyzer-checker=alpha.unix.cstring.OutOfBounds \
 	libinjection*.c 2>&1 | tee /tmp/libinjection-analyze.txt
 	test ! -s /tmp/libinjection-analyze.txt
+
+
+cppcheck:
+	$(CPPCHECK) $(CPPCHECK_FLAGS) .
+
+clang-asan: testdriver
+	$(RM) libinjection.info
+	$(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=execute ./$< ../tests/test-*.txt
 
 lib_LTLIBRARIES = libinjection.la
 

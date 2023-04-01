@@ -21,3 +21,13 @@ libtool: $(LIBTOOL_DEPS)
 
 tests: all
 	@cd src && $(MAKE) $(AM_MAKEFLAGS) check
+  
+# Some helpers for compat
+clang-asan: all
+	@cd src && $(MAKE) $(AM_MAKEFLAGS) clang-asan
+
+cppcheck: $(CPPCHECK)
+	@cd src && $(MAKE) $(AM_MAKEFLAGS) cppcheck
+
+ci: all
+	@cd src && $(MAKE) $(AM_MAKEFLAGS) tests analyze cppcheck

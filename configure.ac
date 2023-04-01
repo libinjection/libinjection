@@ -91,6 +91,8 @@ AC_PATH_TOOL(CLANG, clang)
 AC_PATH_TOOL(GCOV, gcov)
 AC_PATH_PROG(LCOV, lcov)
 AC_PATH_PROG(GENHTML, genhtml)
+AC_PATH_TOOL(CPPCHECK, cppcheck)
+AC_PATH_TOOL(VALGRIND, valgrind)
 
 ###############################################################################
 # Debug/Optimization checks.
