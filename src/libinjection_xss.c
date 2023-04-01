@@ -136,6 +136,8 @@ static int html_decode_char_at(const char* src, size_t len, size_t* consumed)
 }
 
 /*
+ * These were mostly extracted from: https://raw.githubusercontent.com/WebKit/WebKit/main/Source/WebCore/dom/EventNames.h
+ *
  * view-source:
  * data:
  * javascript:
