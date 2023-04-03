@@ -14,7 +14,6 @@
 #include <assert.h>
 #include <stddef.h>
 
-#include "version.h"
 #include "libinjection.h"
 #include "libinjection_sqli.h"
 #include "libinjection_sqli_data.h"
