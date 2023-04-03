@@ -50,3 +50,7 @@ stamp-h1
 
 src/.libs
 src/version.h
+src/teststackxss
+
+src/fuzz/fuzzer
+src/fuzz/corpus

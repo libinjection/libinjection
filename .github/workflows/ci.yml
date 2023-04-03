@@ -22,6 +22,7 @@ jobs:
             --inconclusive \
             --suppress=variableScope \
             --suppress=missingInclude \
+            --suppress=unusedFunction:src/fuzz/*.c \
             --quiet \
             --error-exitcode=1 \
             --template='{file}:{line} {id} {severity} {message}' \
@@ -43,7 +44,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, ubuntu-18.04]
+        os: [ubuntu-20.04, ubuntu-22.04]
         platform: [x32, x64]
         compiler: [gcc, clang]
     steps:
