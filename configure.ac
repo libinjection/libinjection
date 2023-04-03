@@ -191,12 +191,14 @@ if test x$use_gcov = xyes; then
     [AC_MSG_ERROR("lcov testing requested but --coverage flag does not work")])
 fi
 
+# Libinjection version to allow embedding
+AC_DEFINE_UNQUOTED([LIBINJECTION_VERSION], [["$PACKAGE_VERSION"]])
+
 # Output files
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
 	src/fuzz/Makefile
-    src/version.h
     libinjection.pc
 ])
 
