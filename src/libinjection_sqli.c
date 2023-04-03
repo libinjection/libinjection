@@ -18,6 +18,11 @@
 #include "libinjection_sqli.h"
 #include "libinjection_sqli_data.h"
 
+// make clang analyzer happy by defining a dummy version
+#ifndef LIBINJECTION_VERSION
+#define LIBINJECTION_VERSION "undefined"
+#endif
+
 #define LIBINJECTION_SQLI_TOKEN_SIZE  sizeof(((stoken_t*)(0))->val)
 #define LIBINJECTION_SQLI_MAX_TOKENS  5
 
@@ -595,16 +600,6 @@ static size_t parse_operator2(struct libinjection_sqli_state * sf)
     }
 }
 
-#ifndef __clang_analyzer__
-/* Code not to be analyzed by clang.
- * 
- * Why we do this? Because there is a false positive here:
- * libinjection_sqli.c:608:13: warning: Out of bound memory access (access exceeds upper limit of memory block) [alpha.security.ArrayBoundV2]
- *       if (*ptr != '\\') {
- *           ^~~~
- * Specifically, this function deals with non-null terminated char arrays. This can be added
- * as prerequisite, and is not written clearly. But the math in the for below holds.
- */ 
 /*
  * Ok!   "  \"   "  one backslash = escaped!
  *       " \\"   "  two backslash = not escaped!
@@ -613,16 +608,25 @@ static size_t parse_operator2(struct libinjection_sqli_state * sf)
 static int is_backslash_escaped(const char* end, const char* start)
 {
     const char* ptr;
+#ifndef __clang_analyzer__
+/* Code not to be analyzed by clang.
+ *
+ * Why we do this? Because there is a false positive here:
+ * libinjection_sqli.c:608:13: warning: Out of bound memory access (access exceeds upper limit of memory block) [alpha.security.ArrayBoundV2]
+ *       if (*ptr != '\\') {
+ *           ^~~~
+ * Specifically, this function deals with non-null terminated char arrays. This can be added
+ * as prerequisite, and is not written clearly. But the math in the for below holds.
+ */
     for (ptr = end; ptr >= start; ptr--) {
         if (*ptr != '\\') {
             break;
         }
     }
     /* if number of backslashes is odd, it is escaped */
-
     return (end - ptr) & 1;
-}
 #endif
+}
 
 static size_t is_double_delim_escaped(const char* cur,  const char* end)
 {
