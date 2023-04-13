@@ -605,10 +605,10 @@ static size_t parse_operator2(struct libinjection_sqli_state * sf)
  *       " \\"   "  two backslash = not escaped!
  *       "\\\"   "  three backslash = escaped!
  */
+#ifndef __clang_analyzer__
 static int is_backslash_escaped(const char* end, const char* start)
 {
     const char* ptr;
-#ifndef __clang_analyzer__
 /* Code not to be analyzed by clang.
  *
  * Why we do this? Because there is a false positive here:
@@ -625,8 +625,8 @@ static int is_backslash_escaped(const char* end, const char* start)
     }
     /* if number of backslashes is odd, it is escaped */
     return (end - ptr) & 1;
-#endif
 }
+#endif
 
 static size_t is_double_delim_escaped(const char* cur,  const char* end)
 {
