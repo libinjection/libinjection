@@ -77,8 +77,7 @@ Point releases are purely data changes.  These may be safely applied.
 QUALITY AND DIAGNOSITICS
 ========================
 
-The continuous integration results at
-https://travis-ci.org/client9/libinjection tests the following:
+The continuous integration results at GitHub tests the following:
 
 - [x] build and unit-tests under GCC
 - [x] build and unit-tests under Clang
@@ -122,3 +121,11 @@ into your source tree:
 * [src/libinjection_sqli_data.h](/src/libinjection_sqli_data.h)
 * [COPYING](/COPYING)
 
+Usually the new autoconf build system takes care of the `LIBINJECTION_VERSION` definition.
+But that might now be available when you are embedding the above files.
+
+This is solved by manually defining the version you are embedding to your `CFLAGS`.
+
+E.g.: `CFLAGS="-DLIBINJECTION_VERSION=\"3.9.2.65-dfe6-dirty\""`
+
+An easy way to get the version tag is to execute `git describe` in this directory.
