@@ -18,6 +18,7 @@
 void print_string(stoken_t* t);
 void print_var(stoken_t* t);
 void print_token(stoken_t *t);
+void usage(void);
 
 void print_string(stoken_t* t)
 {
@@ -61,7 +62,7 @@ void print_token(stoken_t *t) {
     printf("%s", "\n");
 }
 
-void usage() {
+void usage(void) {
     printf("\n");
     printf("libinjection sqli tester\n");
     printf("\n");
