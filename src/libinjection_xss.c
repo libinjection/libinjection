@@ -828,12 +828,9 @@ int libinjection_is_xss(const char* s, size_t len, int flags)
  * wrapper
  *
  *
- * const char* s: is expected to be a null terminated string.
- * size_t len: should represent the length of the string
- *             without the null terminator - strlen(s). 
+ * const char* s: input string, may contain nulls, does not need to be null-terminated.
+ * size_t len: input string length.
  * 
- * Further info:
- *   - https://github.com/client9/libinjection/issues/150
  *
  */
 int libinjection_xss(const char* s, size_t slen)
