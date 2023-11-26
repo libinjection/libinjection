@@ -885,7 +885,14 @@ static size_t parse_bword(struct libinjection_sqli_state * sf)
 {
     const char *cs = sf->s;
     size_t pos = sf->pos;
-    const char* endptr = (const char*) memchr(cs + pos, ']', sf->slen - pos);
+    const char* endptr;
+
+    if (!(sf->flags & FLAG_SQL_MYSQL)){
+        st_assign(sf->current, TYPE_LEFTPARENS, pos, 1, cs + pos);
+        return pos + 1;
+    }
+
+    endptr = (const char*) memchr(cs + pos, ']', sf->slen - pos);
     if (endptr == NULL) {
         st_assign(sf->current, TYPE_BAREWORD, pos, sf->slen - pos, cs + pos);
         return sf->slen;
