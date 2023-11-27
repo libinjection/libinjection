@@ -38,19 +38,19 @@ size_t print_string(char *buf, size_t len, stoken_t *t) {
 
     /* print opening quote */
     if (t->str_open != '\0') {
-        slen = sprintf(buf + len, "%c", t->str_open);
+        slen = snprintf(buf + len, sizeof(t->str_open), "%c", t->str_open);
         assert(slen >= 0);
         len += (size_t)slen;
     }
 
     /* print content */
-    slen = sprintf(buf + len, "%s", t->val);
+    slen = snprintf(buf + len, sizeof(t->val), "%s", t->val);
     assert(slen >= 0);
     len += (size_t)slen;
 
     /* print closing quote */
     if (t->str_close != '\0') {
-        slen = sprintf(buf + len, "%c", t->str_close);
+        slen = snprintf(buf + len, sizeof(t->str_close), "%c", t->str_close);
         assert(slen >= 0);
         len += (size_t)slen;
     }
@@ -61,12 +61,12 @@ size_t print_string(char *buf, size_t len, stoken_t *t) {
 size_t print_var(char *buf, size_t len, stoken_t *t) {
     int slen;
     if (t->count >= 1) {
-        slen = sprintf(buf + len, "%c", '@');
+        slen = snprintf(buf + len, sizeof(char), "%c", '@');
         assert(slen >= 0);
         len += (size_t)slen;
     }
     if (t->count == 2) {
-        slen = sprintf(buf + len, "%c", '@');
+        slen = snprintf(buf + len, sizeof(char), "%c", '@');
         assert(slen >= 0);
         len += (size_t)slen;
     }
@@ -104,12 +104,13 @@ const char *h5_type_to_string(enum html5_type x) {
 size_t print_html5_token(char *buf, size_t len, h5_state_t *hs) {
     int slen;
     char *tmp = (char *)malloc(hs->token_len + 1);
+
+    assert(tmp != NULL);
     memcpy(tmp, hs->token_start, hs->token_len);
     /* TODO.. encode to be printable */
     tmp[hs->token_len] = '\0';
-
-    slen = sprintf(buf + len, "%s,%d,%s\n", h5_type_to_string(hs->token_type),
-                   (int)hs->token_len, tmp);
+    const char *h5_string = h5_type_to_string(hs->token_type);
+    slen = sprintf(buf + len, "%s,%d,%s\n", h5_string, (int)hs->token_len, tmp);
     len += (size_t)slen;
     free(tmp);
     return len;
@@ -118,7 +119,7 @@ size_t print_html5_token(char *buf, size_t len, h5_state_t *hs) {
 size_t print_token(char *buf, size_t len, stoken_t *t) {
     int slen;
 
-    slen = sprintf(buf + len, "%c ", t->type);
+    slen = snprintf(buf + len, sizeof(t->type), "%c ", t->type);
     assert(slen >= 0);
     len += (size_t)slen;
     switch (t->type) {
@@ -133,7 +134,7 @@ size_t print_token(char *buf, size_t len, stoken_t *t) {
         assert(slen >= 0);
         len += (size_t)slen;
     }
-    slen = sprintf(buf + len, "%c", '\n');
+    slen = snprintf(buf + len, sizeof(char), "%c", '\n');
     assert(slen >= 0);
     len += (size_t)slen;
     return len;
@@ -183,6 +184,7 @@ int read_file(const char *fname, int flags, int testtype) {
 
     slen = strlen(g_input);
     copy = (char *)malloc(slen);
+    assert(copy != NULL);
     memcpy(copy, g_input, slen);
 
     g_actual[0] = '\0';
@@ -232,7 +234,7 @@ int read_file(const char *fname, int flags, int testtype) {
         /*
          * test XSS detection
          */
-        sprintf(g_actual, "%d", libinjection_xss(copy, slen));
+        snprintf(g_actual, sizeof(int), "%d", libinjection_xss(copy, slen));
     } else {
         fprintf(stderr, "Got strange testtype value of %d\n", testtype);
         assert(0);
