@@ -8,20 +8,19 @@
  * is a SQLi attack or not, and does basic statistics
  *
  */
-#include <string.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "libinjection.h"
 #include "libinjection_sqli.h"
 
-void print_string(stoken_t* t);
-void print_var(stoken_t* t);
+void print_string(stoken_t *t);
+void print_var(stoken_t *t);
 void print_token(stoken_t *t);
 void usage(void);
 
-void print_string(stoken_t* t)
-{
+void print_string(stoken_t *t) {
     /* print opening quote */
     if (t->str_open != '\0') {
         printf("%c", t->str_open);
@@ -36,8 +35,7 @@ void print_string(stoken_t* t)
     }
 }
 
-void print_var(stoken_t* t)
-{
+void print_var(stoken_t *t) {
     if (t->count >= 1) {
         printf("%c", '@');
     }
@@ -78,10 +76,9 @@ void usage(void) {
     printf("\n");
 }
 
-int main(int argc, const char* argv[])
-{
+int main(int argc, const char *argv[]) {
     size_t slen;
-    char* copy;
+    char *copy;
 
     int flags = 0;
     int fold = 0;
@@ -99,18 +96,21 @@ int main(int argc, const char* argv[])
         return 1;
     }
     while (1) {
-	if (strcmp(argv[offset], "-h") == 0 || strcmp(argv[offset], "-?") == 0 || strcmp(argv[offset], "--help") == 0) {
-	    usage();
+        if (strcmp(argv[offset], "-h") == 0 ||
+            strcmp(argv[offset], "-?") == 0 ||
+            strcmp(argv[offset], "--help") == 0) {
+            usage();
             return 1;
-	}
+        }
         if (strcmp(argv[offset], "-m") == 0) {
             flags |= FLAG_SQL_MYSQL;
             offset += 1;
-        }
-        else if (strcmp(argv[offset], "-f") == 0 || strcmp(argv[offset], "--fold") == 0) {
+        } else if (strcmp(argv[offset], "-f") == 0 ||
+                   strcmp(argv[offset], "--fold") == 0) {
             fold = 1;
             offset += 1;
-        } else if (strcmp(argv[offset], "-d") == 0 || strcmp(argv[offset], "--detect") == 0) {
+        } else if (strcmp(argv[offset], "-d") == 0 ||
+                   strcmp(argv[offset], "--detect") == 0) {
             detect = 1;
             offset += 1;
         } else if (strcmp(argv[offset], "-ca") == 0) {
@@ -139,7 +139,7 @@ int main(int argc, const char* argv[])
      */
 
     slen = strlen(argv[offset]);
-    copy = (char* ) malloc(slen);
+    copy = (char *)malloc(slen);
     memcpy(copy, argv[offset], slen);
     libinjection_sqli_init(&sf, copy, slen, flags);
 
