@@ -1,6 +1,6 @@
+#include <assert.h>
 #include <stdlib.h>
 #include <strings.h>
-#include <assert.h>
 
 #include "libinjection.h"
 
@@ -8,13 +8,12 @@
  * reproduce core dump due to a stack overflow in libinjection.
  * to run this test, libinjection must be compiled without optimization
  *
- * gcc -O0 -o test_stack_xss src/test_stack_xss.c  src/libinjection*.c && ./test_stack_xss && echo OK
+ * gcc -O0 -o test_stack_xss src/test_stack_xss.c  src/libinjection*.c &&
+ * ./test_stack_xss && echo OK
  *
  */
 
-
-int main(void)
-{
+int main(void) {
     const size_t input_size = 10000000;
 
     char *input = malloc(input_size);
