@@ -8,6 +8,9 @@ MAINTAINERCLEANFILES = Makefile.in aclocal.m4 build-aux/compile \
 		build-aux/m4/ltversion.m4 build-aux/m4/lt~obsolete.m4
 
 SUBDIRS = src
+if BUILD_FUZZTARGETS
+SUBDIRS += src/fuzz
+endif
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libinjection.pc
@@ -20,4 +23,14 @@ libtool: $(LIBTOOL_DEPS)
 	$(SHELL) ./config.status libtool
 
 tests: all
-	@cd src && $(MAKE) $(AM_MAKEFLAGS) tests
+	@cd src && $(MAKE) $(AM_MAKEFLAGS) check
+  
+# Some helpers for compat
+clang-asan: all
+	@cd src && $(MAKE) $(AM_MAKEFLAGS) clang-asan
+
+cppcheck: $(CPPCHECK)
+	@cd src && $(MAKE) $(AM_MAKEFLAGS) cppcheck
+
+ci: all
+	@cd src && $(MAKE) $(AM_MAKEFLAGS) tests analyze cppcheck

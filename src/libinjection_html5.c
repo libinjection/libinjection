@@ -328,6 +328,10 @@ static injection_result_t h5_state_before_attribute_name(h5_state_t* hs)
     int ch;
 
     TRACE();
+
+    /* for manual tail call optimization, see comment below */
+    tail_call:;
+
     ch = h5_skip_white(hs);
     switch (ch) {
     case CHAR_EOF: {
@@ -335,6 +339,18 @@ static injection_result_t h5_state_before_attribute_name(h5_state_t* hs)
     }
     case CHAR_SLASH: {
         hs->pos += 1;
+        /* Logically, We want to call h5_state_self_closing_start_tag(hs) here.
+
+           As this function may call us back and the compiler
+           might not implement automatic tail call optimization,
+           this might result in a deep recursion.
+
+           We detect this case here and start over with the current state.
+        */
+
+        if (hs->pos < hs->len && hs->s[hs->pos] != CHAR_GT) {
+            goto tail_call;
+        }
         return h5_state_self_closing_start_tag(hs);
     }
     case CHAR_GT: {
@@ -579,6 +595,8 @@ static injection_result_t h5_state_after_attribute_value_quoted_state(h5_state_t
 
 /**
  * 12.2.4.43
+ *
+ *  WARNING: This function is partially inlined into h5_state_before_attribute_name()
  */
 static injection_result_t h5_state_self_closing_start_tag(h5_state_t* hs)
 {
