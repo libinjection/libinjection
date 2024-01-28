@@ -4,7 +4,6 @@ Small script to convert fingerprints back to SQL or SQLi
 """
 import subprocess
 
-
 RMAP = {
     '1': '1',
     'f': 'convert',
@@ -28,6 +27,7 @@ RMAP = {
     'B': 'group by',
     'X': '/* /* nested comment */ */'
 }
+
 
 def fingerprint_to_sqli():
     """
@@ -57,4 +57,3 @@ def fingerprint_to_sqli():
 
 if __name__ == '__main__':
     fingerprint_to_sqli()
-
