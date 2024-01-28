@@ -3,7 +3,7 @@
  * nickg@client9.com
  * BSD License -- see COPYING.txt for details
  *
- * https://libinjection.client9.com/
+ * https://github.com/libinjection/libinjection
  *
  */
 
@@ -24,7 +24,12 @@ LIBINJECTION_BEGIN_DECLS
  * Pull in size_t
  */
 #include <string.h>
-#include "libinjection_html5.h"
+
+typedef enum injection_result_t {
+  RESULT_FALSE = 0,
+  RESULT_TRUE = 1,
+  RESULT_ERROR = -1
+} injection_result_t;
 
 /*
  * Version info.
@@ -48,7 +53,7 @@ const char* libinjection_version(void);
  * \param[out] fingerprint buffer of 8+ characters.  c-string,
  * \return 1 if SQLi, 0 if benign.  fingerprint will be set or set to empty string.
  */
-int libinjection_sqli(const char* s, size_t slen, char fingerprint[]);
+injection_result_t libinjection_sqli(const char* s, size_t slen, char fingerprint[]);
 
 /** ALPHA version of xss detector.
  *

@@ -9,12 +9,6 @@ extern "C" {
 
 #include <stddef.h>
 
-typedef enum injection_result_t {
-    RESULT_FALSE = 0,
-    RESULT_TRUE = 1,
-    RESULT_ERROR = -1
-} injection_result_t;
-
 enum html5_type {
     DATA_TEXT
     , TAG_NAME_OPEN

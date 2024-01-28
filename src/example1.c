@@ -19,7 +19,7 @@ int main(int argc, const char* argv[])
 
 
     issqli = libinjection_sqli(input, slen, fingerprint);
-    if (issqli) {
+    if (issqli == RESULT_TRUE) {
         printf("sqli with fingerprint of '%s'\n", fingerprint);
     } else {
         printf("not sqli\n");
