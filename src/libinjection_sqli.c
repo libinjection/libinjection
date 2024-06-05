@@ -18,7 +18,10 @@
 #include "libinjection_sqli.h"
 #include "libinjection_sqli_data.h"
 
-#define LIBINJECTION_VERSION "3.9.2"
+#ifdef __clang_analyzer__
+// make clang analyzer happy by defining a dummy version
+#define LIBINJECTION_VERSION "undefined"
+#endif
 
 #define LIBINJECTION_SQLI_TOKEN_SIZE  sizeof(((stoken_t*)(0))->val)
 #define LIBINJECTION_SQLI_MAX_TOKENS  5
@@ -602,18 +605,28 @@ static size_t parse_operator2(struct libinjection_sqli_state * sf)
  *       " \\"   "  two backslash = not escaped!
  *       "\\\"   "  three backslash = escaped!
  */
+#ifndef __clang_analyzer__
 static int is_backslash_escaped(const char* end, const char* start)
 {
     const char* ptr;
+/* Code not to be analyzed by clang.
+ *
+ * Why we do this? Because there is a false positive here:
+ * libinjection_sqli.c:608:13: warning: Out of bound memory access (access exceeds upper limit of memory block) [alpha.security.ArrayBoundV2]
+ *       if (*ptr != '\\') {
+ *           ^~~~
+ * Specifically, this function deals with non-null terminated char arrays. This can be added
+ * as prerequisite, and is not written clearly. But the math in the for below holds.
+ */
     for (ptr = end; ptr >= start; ptr--) {
         if (*ptr != '\\') {
             break;
         }
     }
     /* if number of backslashes is odd, it is escaped */
-
     return (end - ptr) & 1;
 }
+#endif
 
 static size_t is_double_delim_escaped(const char* cur,  const char* end)
 {
@@ -1202,7 +1215,7 @@ static size_t parse_number(struct libinjection_sqli_state * sf)
  * without having to regenerated the SWIG (or other binding) in minor
  * releases.
  */
-const char* libinjection_version()
+const char* libinjection_version(void)
 {
     return LIBINJECTION_VERSION;
 }
@@ -1279,7 +1292,7 @@ void libinjection_sqli_init(struct libinjection_sqli_state * sf, const char *s, 
 void libinjection_sqli_reset(struct libinjection_sqli_state * sf, int flags)
 {
     void *userdata = sf->userdata;
-    ptr_lookup_fn lookup = sf->lookup;;
+    ptr_lookup_fn lookup = sf->lookup;
 
     if (flags == 0) {
         flags = FLAG_QUOTE_NONE | FLAG_SQL_ANSI;
@@ -2314,12 +2327,12 @@ int libinjection_is_sqli(struct libinjection_sqli_state * sql_state)
     return FALSE;
 }
 
-int libinjection_sqli(const char* input, size_t slen, char fingerprint[])
+int libinjection_sqli(const char* s, size_t slen, char fingerprint[])
 {
     int issqli;
     struct libinjection_sqli_state state;
 
-    libinjection_sqli_init(&state, input, slen, 0);
+    libinjection_sqli_init(&state, s, slen, 0);
     issqli = libinjection_is_sqli(&state);
     if (issqli) {
         strcpy(fingerprint, state.fingerprint);

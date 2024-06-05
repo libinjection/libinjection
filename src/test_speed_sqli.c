@@ -49,7 +49,7 @@ int testIsSQL(void)
     return tps;
 }
 
-int main()
+int main(void)
 {
     const int mintps = 450000;
     int tps = testIsSQL();
