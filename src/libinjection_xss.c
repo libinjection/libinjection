@@ -1,6 +1,6 @@
 
-#include "libinjection.h"
 #include "libinjection_xss.h"
+#include "libinjection.h"
 #include "libinjection_html5.h"
 
 #include <assert.h>
@@ -152,10 +152,10 @@ static stringtype_t BLACKATTREVENT[] = {
     {"AUDIOEND", TYPE_BLACK},
     {"AUDIOPROCESS", TYPE_BLACK},
     {"AUDIOSTART", TYPE_BLACK},
-    {"AUTOCOMPLETE", TYPE_BLACK },
+    {"AUTOCOMPLETE", TYPE_BLACK},
     {"AUTOCOMPLETEERROR", TYPE_BLACK},
-    {"BACKGROUNDFETCHABORT", TYPE_BLACK },
-    {"BACKGROUNDFETCHCLICK", TYPE_BLACK },
+    {"BACKGROUNDFETCHABORT", TYPE_BLACK},
+    {"BACKGROUNDFETCHCLICK", TYPE_BLACK},
     {"BACKGROUNDFETCHFAIL", TYPE_BLACK},
     {"BACKGROUNDFETCHSUCCESS", TYPE_BLACK},
     {"BEFORECOPY", TYPE_BLACK},
@@ -164,14 +164,14 @@ static stringtype_t BLACKATTREVENT[] = {
     {"BEFORELOAD", TYPE_BLACK},
     {"BEFOREPASTE", TYPE_BLACK},
     {"BEFOREPRINT", TYPE_BLACK},
-    {"BEFORETOGGLE", TYPE_BLACK },
+    {"BEFORETOGGLE", TYPE_BLACK},
     {"BEFOREUNLOAD", TYPE_BLACK},
     {"BEGINEVENT", TYPE_BLACK},
     {"BLOCKED", TYPE_BLACK},
     {"BLUR", TYPE_BLACK},
     {"BOUNDARY", TYPE_BLACK},
-    {"BUFFEREDAMOUNTLOW", TYPE_BLACK },
-  {"BUFFEREDCHANGE", TYPE_BLACK },
+    {"BUFFEREDAMOUNTLOW", TYPE_BLACK},
+    {"BUFFEREDCHANGE", TYPE_BLACK},
     {"CACHED", TYPE_BLACK},
     {"CANCEL", TYPE_BLACK},
     {"CANPLAY", TYPE_BLACK},
@@ -182,45 +182,45 @@ static stringtype_t BLACKATTREVENT[] = {
     {"CHECKING", TYPE_BLACK},
     {"CLICK", TYPE_BLACK},
     {"CLOSE", TYPE_BLACK},
-    {"CLOSING", TYPE_BLACK },
+    {"CLOSING", TYPE_BLACK},
     {"COMPLETE", TYPE_BLACK},
     {"COMPOSITIONEND", TYPE_BLACK},
     {"COMPOSITIONSTART", TYPE_BLACK},
     {"COMPOSITIONUPDATE", TYPE_BLACK},
-    {"CONFIGURATIONCHANGE", TYPE_BLACK },
-  {"CONNECT", TYPE_BLACK },
-  { "CONNECTING", TYPE_BLACK},
+    {"CONFIGURATIONCHANGE", TYPE_BLACK},
+    {"CONNECT", TYPE_BLACK},
+    {"CONNECTING", TYPE_BLACK},
     {"CONNECTIONSTATECHANGE", TYPE_BLACK},
     {"CONTENTVISIBILITYAUTOSTATECHANGE", TYPE_BLACK},
     {"CONTEXTMENU", TYPE_BLACK},
     {"CONTROLLERCHANGE", TYPE_BLACK},
-    {"COOKIECHANGE", TYPE_BLACK },
- { "COORDINATORSTATECHANGE", TYPE_BLACK },
-  { "COPY", TYPE_BLACK},
-    {"COUPONCODECHANGED", TYPE_BLACK },
-  { "CUECHANGE", TYPE_BLACK},
-    {"CURRENTENTRYCHANGE", TYPE_BLACK },
-  { "CUT", TYPE_BLACK},
+    {"COOKIECHANGE", TYPE_BLACK},
+    {"COORDINATORSTATECHANGE", TYPE_BLACK},
+    {"COPY", TYPE_BLACK},
+    {"COUPONCODECHANGED", TYPE_BLACK},
+    {"CUECHANGE", TYPE_BLACK},
+    {"CURRENTENTRYCHANGE", TYPE_BLACK},
+    {"CUT", TYPE_BLACK},
     {"DATAAVAILABLE", TYPE_BLACK},
     {"DATACHANNEL", TYPE_BLACK},
     {"DBLCLICK", TYPE_BLACK},
-    {"DEQUEUE", TYPE_BLACK },
-  { "DEVICECHANGE", TYPE_BLACK},
+    {"DEQUEUE", TYPE_BLACK},
+    {"DEVICECHANGE", TYPE_BLACK},
     {"DEVICEMOTION", TYPE_BLACK},
     {"DEVICEORIENTATION", TYPE_BLACK},
     {"DISCHARGINGTIMECHANGE", TYPE_BLACK},
     {"DISCONNECT", TYPE_BLACK},
-    {"DISPOSE", TYPE_BLACK },
-  { "DOMACTIVATE", TYPE_BLACK},
+    {"DISPOSE", TYPE_BLACK},
+    {"DOMACTIVATE", TYPE_BLACK},
     {"DOMCHARACTERDATAMODIFIED", TYPE_BLACK},
     {"DOMCONTENTLOADED", TYPE_BLACK},
     {"DOMNODEINSERTED", TYPE_BLACK},
     {"DOMNODEINSERTEDINTODOCUMENT", TYPE_BLACK},
     {"DOMNODEREMOVED", TYPE_BLACK},
-    {"DOMNODEREMOVEDFROMDOCUMENT", TYPE_BLACK },
+    {"DOMNODEREMOVEDFROMDOCUMENT", TYPE_BLACK},
     {"DOMSUBTREEMODIFIED", TYPE_BLACK},
-    {"DOWNLOADING", TYPE_BLACK },
-  { "DRAG", TYPE_BLACK },
+    {"DOWNLOADING", TYPE_BLACK},
+    {"DRAG", TYPE_BLACK},
     {"DRAGEND", TYPE_BLACK},
     {"DRAGENTER", TYPE_BLACK},
     {"DRAGLEAVE", TYPE_BLACK},
@@ -230,8 +230,8 @@ static stringtype_t BLACKATTREVENT[] = {
     {"DURATIONCHANGE", TYPE_BLACK},
     {"EMPTIED", TYPE_BLACK},
     {"ENCRYPTED", TYPE_BLACK},
-    {"END", TYPE_BLACK },
-  { "ENDED", TYPE_BLACK},
+    {"END", TYPE_BLACK},
+    {"ENDED", TYPE_BLACK},
     {"ENDEVENT", TYPE_BLACK},
     {"ENDSTREAMING", TYPE_BLACK},
     {"ENTER", TYPE_BLACK},
@@ -240,16 +240,16 @@ static stringtype_t BLACKATTREVENT[] = {
     {"EXIT", TYPE_BLACK},
     {"FETCH", TYPE_BLACK},
     {"FINISH", TYPE_BLACK},
-    {"FOCUS", TYPE_BLACK },
-  { "FOCUSIN", TYPE_BLACK},
+    {"FOCUS", TYPE_BLACK},
+    {"FOCUSIN", TYPE_BLACK},
     {"FOCUSOUT", TYPE_BLACK},
     {"FORMDATA", TYPE_BLACK},
     {"FULLSCREENCHANGE", TYPE_BLACK},
     {"FULLSCREENERROR", TYPE_BLACK},
     {"GAMEPADCONNECTED", TYPE_BLACK},
     {"GAMEPADDISCONNECTED", TYPE_BLACK},
-    {"GATHERINGSTATECHANGE", TYPE_BLACK },
-  { "GESTURECHANGE", TYPE_BLACK},
+    {"GATHERINGSTATECHANGE", TYPE_BLACK},
+    {"GESTURECHANGE", TYPE_BLACK},
     {"GESTUREEND", TYPE_BLACK},
     {"GESTURESCROLLEND", TYPE_BLACK},
     {"GESTURESCROLLSTART", TYPE_BLACK},
@@ -268,22 +268,22 @@ static stringtype_t BLACKATTREVENT[] = {
     {"INPUTSOURCESCHANGE", TYPE_BLACK},
     {"INSTALL", TYPE_BLACK},
     {"INVALID", TYPE_BLACK},
-    {"INVOKE", TYPE_BLACK },
-  { "KEYDOWN", TYPE_BLACK},
+    {"INVOKE", TYPE_BLACK},
+    {"KEYDOWN", TYPE_BLACK},
     {"KEYPRESS", TYPE_BLACK},
     {"KEYSTATUSESCHANGE", TYPE_BLACK},
     {"KEYUP", TYPE_BLACK},
     {"LANGUAGECHANGE", TYPE_BLACK},
     {"LEAVEPICTUREINPICTURE", TYPE_BLACK},
-    {"LEVELCHANGE", TYPE_BLACK },
-  { "LOAD", TYPE_BLACK },
+    {"LEVELCHANGE", TYPE_BLACK},
+    {"LOAD", TYPE_BLACK},
     {"LOADEDDATA", TYPE_BLACK},
     {"LOADEDMETADATA", TYPE_BLACK},
     {"LOADEND", TYPE_BLACK},
-    {"LOADING", TYPE_BLACK },
-  { "LOADINGDONE", TYPE_BLACK},
+    {"LOADING", TYPE_BLACK},
+    {"LOADINGDONE", TYPE_BLACK},
     {"LOADINGERROR", TYPE_BLACK},
-    {"LOADSTART", TYPE_BLACK },
+    {"LOADSTART", TYPE_BLACK},
     {"LOSTPOINTERCAPTURE", TYPE_BLACK},
     {"MARK", TYPE_BLACK},
     {"MERCHANTVALIDATION", TYPE_BLACK},
@@ -297,16 +297,16 @@ static stringtype_t BLACKATTREVENT[] = {
     {"MOUSEOVER", TYPE_BLACK},
     {"MOUSEUP", TYPE_BLACK},
     {"MOUSEWHEEL", TYPE_BLACK},
-    {"MUTE", TYPE_BLACK },
-  { "NAVIGATE", TYPE_BLACK },
-  { "NAVIGATEERROR", TYPE_BLACK },
-  { "NAVIGATESUCCESS", TYPE_BLACK },
+    {"MUTE", TYPE_BLACK},
+    {"NAVIGATE", TYPE_BLACK},
+    {"NAVIGATEERROR", TYPE_BLACK},
+    {"NAVIGATESUCCESS", TYPE_BLACK},
     {"NEGOTIATIONNEEDED", TYPE_BLACK},
     {"NEXTTRACK", TYPE_BLACK},
     {"NOMATCH", TYPE_BLACK},
-    {"NOTIFICATIONCLICK", TYPE_BLACK },
-  { "NOTIFICATIONCLOSE", TYPE_BLACK },
-  { "NOUPDATE", TYPE_BLACK},
+    {"NOTIFICATIONCLICK", TYPE_BLACK},
+    {"NOTIFICATIONCLOSE", TYPE_BLACK},
+    {"NOUPDATE", TYPE_BLACK},
     {"OBSOLETE", TYPE_BLACK},
     {"OFFLINE", TYPE_BLACK},
     {"ONLINE", TYPE_BLACK},
@@ -337,34 +337,34 @@ static stringtype_t BLACKATTREVENT[] = {
     {"PREVIOUSTRACK", TYPE_BLACK},
     {"PROCESSORERROR", TYPE_BLACK},
     {"PROGRESS", TYPE_BLACK},
-    {"PUSH", TYPE_BLACK },
-  { "PUSHNOTIFICATION", TYPE_BLACK },
-  { "PUSHSUBSCRIPTIONCHANGE", TYPE_BLACK },
-  { "QUALITYCHANGE", TYPE_BLACK},
+    {"PUSH", TYPE_BLACK},
+    {"PUSHNOTIFICATION", TYPE_BLACK},
+    {"PUSHSUBSCRIPTIONCHANGE", TYPE_BLACK},
+    {"QUALITYCHANGE", TYPE_BLACK},
     {"RATECHANGE", TYPE_BLACK},
     {"READYSTATECHANGE", TYPE_BLACK},
     {"REJECTIONHANDLED", TYPE_BLACK},
-    {"RELEASE", TYPE_BLACK },
-  { "REMOVE", TYPE_BLACK },
-  { "REMOVESOURCEBUFFER", TYPE_BLACK},
+    {"RELEASE", TYPE_BLACK},
+    {"REMOVE", TYPE_BLACK},
+    {"REMOVESOURCEBUFFER", TYPE_BLACK},
     {"REMOVESTREAM", TYPE_BLACK},
-    {"REMOVETRACK", TYPE_BLACK },
+    {"REMOVETRACK", TYPE_BLACK},
     {"RESET", TYPE_BLACK},
     {"RESIZE", TYPE_BLACK},
     {"RESOURCETIMINGBUFFERFULL", TYPE_BLACK},
     {"RESULT", TYPE_BLACK},
-    {"RESUME", TYPE_BLACK },
-  { "RTCTRANSFORM", TYPE_BLACK },
+    {"RESUME", TYPE_BLACK},
+    {"RTCTRANSFORM", TYPE_BLACK},
     {"SCROLL", TYPE_BLACK},
     {"SEARCH", TYPE_BLACK},
     {"SECURITYPOLICYVIOLATION", TYPE_BLACK},
     {"SEEKED", TYPE_BLACK},
     {"SEEKING", TYPE_BLACK},
-    {"SELECT", TYPE_BLACK },
-  { "SELECTEDCANDIDATEPAIRCHANGE", TYPE_BLACK },
-  { "SELECTEND", TYPE_BLACK},
+    {"SELECT", TYPE_BLACK},
+    {"SELECTEDCANDIDATEPAIRCHANGE", TYPE_BLACK},
+    {"SELECTEND", TYPE_BLACK},
     {"SELECTIONCHANGE", TYPE_BLACK},
-    {"SELECTSTART", TYPE_BLACK },
+    {"SELECTSTART", TYPE_BLACK},
     {"SHIPPINGADDRESSCHANGE", TYPE_BLACK},
     {"SHIPPINGCONTACTSELECTED", TYPE_BLACK},
     {"SHIPPINGMETHODSELECTED", TYPE_BLACK},
@@ -379,8 +379,8 @@ static stringtype_t BLACKATTREVENT[] = {
     {"SOURCEOPEN", TYPE_BLACK},
     {"SPEECHEND", TYPE_BLACK},
     {"SPEECHSTART", TYPE_BLACK},
-    {"SQUEEZE", TYPE_BLACK },
-  { "SQUEEZEEND", TYPE_BLACK},
+    {"SQUEEZE", TYPE_BLACK},
+    {"SQUEEZEEND", TYPE_BLACK},
     {"SQUEEZESTART", TYPE_BLACK},
     {"STALLED", TYPE_BLACK},
     {"START", TYPE_BLACK},
@@ -394,8 +394,8 @@ static stringtype_t BLACKATTREVENT[] = {
     {"SUSPEND", TYPE_BLACK},
     {"TEXTINPUT", TYPE_BLACK},
     {"TIMEOUT", TYPE_BLACK},
-    {"TIMEUPDATE", TYPE_BLACK },
-    { "TOGGLE", TYPE_BLACK },
+    {"TIMEUPDATE", TYPE_BLACK},
+    {"TOGGLE", TYPE_BLACK},
     {"TONECHANGE", TYPE_BLACK},
     {"TOUCHCANCEL", TYPE_BLACK},
     {"TOUCHEND", TYPE_BLACK},
@@ -411,11 +411,11 @@ static stringtype_t BLACKATTREVENT[] = {
     {"UNHANDLEDREJECTION", TYPE_BLACK},
     {"UNLOAD", TYPE_BLACK},
     {"UNMUTE", TYPE_BLACK},
-    {"UPDATE", TYPE_BLACK },
-  { "UPDATEEND", TYPE_BLACK},
+    {"UPDATE", TYPE_BLACK},
+    {"UPDATEEND", TYPE_BLACK},
     {"UPDATEFOUND", TYPE_BLACK},
     {"UPDATEREADY", TYPE_BLACK},
-    {"UPDATESTART", TYPE_BLACK },
+    {"UPDATESTART", TYPE_BLACK},
     {"UPGRADENEEDED", TYPE_BLACK},
     {"VALIDATEMERCHANT", TYPE_BLACK},
     {"VERSIONCHANGE", TYPE_BLACK},
@@ -455,7 +455,7 @@ static stringtype_t BLACKATTREVENT[] = {
     {"WHEEL", TYPE_BLACK},
     {"WRITE", TYPE_BLACK},
     {"WRITEEND", TYPE_BLACK},
-    {"WRITESTART", TYPE_BLACK },
+    {"WRITESTART", TYPE_BLACK},
     {"ZOOM", TYPE_BLACK},
     {NULL, TYPE_NONE}};
 
@@ -695,9 +695,9 @@ static attribute_t is_black_attr(const char *s, size_t len) {
             }
         }
 
-
         /* XMLNS can be used to create arbitrary tags */
-        if (cstrcasecmp_with_null("XMLNS", s, 5) == 0 || cstrcasecmp_with_null("XLINK", s, 5) == 0) {
+        if (cstrcasecmp_with_null("XMLNS", s, 5) == 0 ||
+            cstrcasecmp_with_null("XLINK", s, 5) == 0) {
             /*      printf("Got XMLNS and XLINK tags\n"); */
             return TYPE_BLACK;
         }
@@ -715,17 +715,16 @@ static attribute_t is_black_attr(const char *s, size_t len) {
     return TYPE_NONE;
 }
 
-static int is_black_url(const char* s, size_t len)
-{
+static int is_black_url(const char *s, size_t len) {
 
-    static const char* data_url = "DATA";
-    static const char* viewsource_url = "VIEW-SOURCE";
+    static const char *data_url = "DATA";
+    static const char *viewsource_url = "VIEW-SOURCE";
 
     /* obsolete but interesting signal */
-    static const char* vbscript_url = "VBSCRIPT";
+    static const char *vbscript_url = "VBSCRIPT";
 
     /* covers JAVA, JAVASCRIPT, + colon */
-    static const char* javascript_url = "JAVA";
+    static const char *javascript_url = "JAVA";
 
     /* skip whitespace */
     while (len > 0 && (*s <= 32 || *s >= 127)) {
@@ -758,12 +757,11 @@ static int is_black_url(const char* s, size_t len)
     return 0;
 }
 
-int libinjection_is_xss(const char* s, size_t len, int flags)
-{
+int libinjection_is_xss(const char *s, size_t len, int flags) {
     h5_state_t h5;
     attribute_t attr = TYPE_NONE;
 
-    libinjection_h5_init(&h5, s, len, (enum html5_flags) flags);
+    libinjection_h5_init(&h5, s, len, (enum html5_flags)flags);
     while (libinjection_h5_next(&h5)) {
         if (h5.token_type != ATTR_VALUE) {
             attr = TYPE_NONE;
@@ -811,10 +809,10 @@ int libinjection_is_xss(const char* s, size_t len, int flags)
                     return 1;
                 }
                 break;
-/*
-  default:
-  assert(0);
-*/
+                /*
+                  default:
+                  assert(0);
+                */
             }
             attr = TYPE_NONE;
         } else if (h5.token_type == TAG_COMMENT) {
@@ -853,18 +851,16 @@ int libinjection_is_xss(const char* s, size_t len, int flags)
     return 0;
 }
 
-
 /*
  * wrapper
  *
  *
- * const char* s: input string, may contain nulls, does not need to be null-terminated.
- * size_t len: input string length.
- * 
+ * const char* s: input string, may contain nulls, does not need to be
+ * null-terminated. size_t len: input string length.
+ *
  *
  */
-int libinjection_xss(const char* s, size_t slen)
-{
+int libinjection_xss(const char *s, size_t slen) {
     if (libinjection_is_xss(s, slen, DATA_STATE)) {
         return 1;
     }
