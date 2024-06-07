@@ -8,10 +8,8 @@
 
 typedef enum attribute {
     TYPE_NONE,
-    TYPE_BLACK /* ban always */
-    ,
-    TYPE_ATTR_URL /* attribute value takes a URL-like object */
-    ,
+    TYPE_BLACK,    /* ban always */
+    TYPE_ATTR_URL, /* attribute value takes a URL-like object */
     TYPE_STYLE,
     TYPE_ATTR_INDIRECT /* attribute *name* is given in *value* */
 } attribute_t;
@@ -465,42 +463,26 @@ static stringtype_t BLACKATTREVENT[] = {
  * javascript:
  */
 static stringtype_t BLACKATTR[] = {
-    {"ACTION", TYPE_ATTR_URL} /* form */
-    ,
+    {"ACTION", TYPE_ATTR_URL}, /* form */
     {"ATTRIBUTENAME",
-     TYPE_ATTR_INDIRECT} /* SVG allow indirection of attribute names */
-    ,
-    {"BY", TYPE_ATTR_URL} /* SVG */
-    ,
-    {"BACKGROUND", TYPE_ATTR_URL} /* IE6, O11 */
-    ,
-    {"DATAFORMATAS", TYPE_BLACK} /* IE */
-    ,
-    {"DATASRC", TYPE_BLACK} /* IE */
-    ,
-    {"DYNSRC", TYPE_ATTR_URL} /* Obsolete img attribute */
-    ,
-    {"FILTER", TYPE_STYLE} /* Opera, SVG inline style */
-    ,
-    {"FORMACTION", TYPE_ATTR_URL} /* HTML 5 */
-    ,
-    {"FOLDER", TYPE_ATTR_URL} /* Only on A tags, IE-only */
-    ,
-    {"FROM", TYPE_ATTR_URL} /* SVG */
-    ,
-    {"HANDLER", TYPE_ATTR_URL} /* SVG Tiny, Opera */
-    ,
+     TYPE_ATTR_INDIRECT},  /* SVG allow indirection of attribute names */
+    {"BY", TYPE_ATTR_URL}, /* SVG */
+    {"BACKGROUND", TYPE_ATTR_URL}, /* IE6, O11 */
+    {"DATAFORMATAS", TYPE_BLACK},  /* IE */
+    {"DATASRC", TYPE_BLACK},       /* IE */
+    {"DYNSRC", TYPE_ATTR_URL},     /* Obsolete img attribute */
+    {"FILTER", TYPE_STYLE},        /* Opera, SVG inline style */
+    {"FORMACTION", TYPE_ATTR_URL}, /* HTML 5 */
+    {"FOLDER", TYPE_ATTR_URL},     /* Only on A tags, IE-only */
+    {"FROM", TYPE_ATTR_URL},       /* SVG */
+    {"HANDLER", TYPE_ATTR_URL},    /* SVG Tiny, Opera */
     {"HREF", TYPE_ATTR_URL},
-    {"LOWSRC", TYPE_ATTR_URL} /* Obsolete img attribute */
-    ,
-    {"POSTER", TYPE_ATTR_URL} /* Opera 10,11 */
-    ,
+    {"LOWSRC", TYPE_ATTR_URL}, /* Obsolete img attribute */
+    {"POSTER", TYPE_ATTR_URL}, /* Opera 10,11 */
     {"SRC", TYPE_ATTR_URL},
     {"STYLE", TYPE_STYLE},
-    {"TO", TYPE_ATTR_URL} /* SVG */
-    ,
-    {"VALUES", TYPE_ATTR_URL} /* SVG */
-    ,
+    {"TO", TYPE_ATTR_URL},     /* SVG */
+    {"VALUES", TYPE_ATTR_URL}, /* SVG */
     {"XLINK:HREF", TYPE_ATTR_URL},
     {NULL, TYPE_NONE}};
 
@@ -522,37 +504,17 @@ static stringtype_t BLACKATTR[] = {
 */
 
 static const char *BLACKTAG[] = {
-    "APPLET"
+    "APPLET",
     /*    , "AUDIO" */
-    ,
-    "BASE",
-    "COMMENT" /* IE http://html5sec.org/#38 */
-    ,
-    "EMBED"
+    "BASE", "COMMENT", /* IE http://html5sec.org/#38 */
+    "EMBED",
     /*   ,  "FORM" */
-    ,
-    "FRAME",
-    "FRAMESET",
-    "HANDLER" /* Opera SVG, effectively a script tag */
-    ,
-    "IFRAME",
-    "IMPORT",
-    "ISINDEX",
-    "LINK",
-    "LISTENER"
+    "FRAME", "FRAMESET", "HANDLER", /* Opera SVG, effectively a script tag */
+    "IFRAME", "IMPORT", "ISINDEX", "LINK", "LISTENER",
     /*    , "MARQUEE" */
-    ,
-    "META",
-    "NOSCRIPT",
-    "OBJECT",
-    "SCRIPT",
-    "STYLE"
+    "META", "NOSCRIPT", "OBJECT", "SCRIPT", "STYLE",
     /*    , "VIDEO" */
-    ,
-    "VMLFRAME",
-    "XML",
-    "XSS",
-    NULL};
+    "VMLFRAME", "XML", "XSS", NULL};
 
 static int cstrcasecmp_with_null(const char *a, const char *b, size_t n) {
     char ca;
