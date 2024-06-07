@@ -5,11 +5,22 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    name: Format check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run clang-format style check for C/C++ programs.
+      uses: jidicula/clang-format-action@v4.11.0
+      with:
+        clang-format-version: '16'
+        check-path: 'src'
+
   cppcheck:
     runs-on: ubuntu-20.04
     name: cppcheck
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         name: checkout repo
       - name: Setup Dependencies
         run: |
@@ -32,7 +43,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: clang static check
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         name: checkout repo
       - name: make analyze
         run: |
@@ -48,7 +59,7 @@ jobs:
         platform: [x32, x64]
         compiler: [gcc, clang]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup Dependencies
         run: |
           sudo apt-get update -y -qq
@@ -80,10 +91,10 @@ jobs:
         os: [macos-12, macos-11]
         compiler: [gcc, clang]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Cache brew deps
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           # Paths to cache:
           # /usr/local/Homebrew - installation folder of Homebrew
