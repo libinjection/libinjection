@@ -61,7 +61,7 @@ lib_LTLIBRARIES = libinjection.la
 
 libinjection_la_LDFLAGS = -rpath '$(libdir)' -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
-libinjection_la_SOURCES = libinjection_sqli.c libinjection_html5.c libinjection_xss.c libinjection_sqli_data.h
+libinjection_la_SOURCES = libinjection_sqli_data.h libinjection_sqli.c libinjection_html5.c libinjection_xss.c
 
 include_HEADERS= libinjection.h libinjection_sqli.h libinjection_sqli_data.h libinjection_html5.h libinjection_xss.h
 
