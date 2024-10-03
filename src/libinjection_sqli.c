@@ -1180,8 +1180,7 @@ static size_t parse_number(struct libinjection_sqli_state *sf) {
      * we should detect such SQLI injection in case WAF bypass.
      * 
     */
-    if (! (have_e == 1 && have_exp == 0))
-    {
+    if (!(have_e == 1 && have_exp == 0)){
         st_assign(sf->current, TYPE_NUMBER, start, pos - start, cs + start);
     }
 
