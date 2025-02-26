@@ -50,7 +50,8 @@ size_t print_string(char *buf, size_t len, stoken_t *t) {
 
     /* print closing quote */
     if (t->str_close != '\0') {
-        slen = snprintf(buf + len, sizeof(t->str_close) + 1, "%c", t->str_close);
+        slen =
+            snprintf(buf + len, sizeof(t->str_close) + 1, "%c", t->str_close);
         assert(slen >= 0);
         len += (size_t)slen;
     }
