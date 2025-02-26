@@ -38,19 +38,20 @@ size_t print_string(char *buf, size_t len, stoken_t *t) {
 
     /* print opening quote */
     if (t->str_open != '\0') {
-        slen = snprintf(buf + len, sizeof(t->str_open), "%c", t->str_open);
+        slen = snprintf(buf + len, sizeof(t->str_open) + 1, "%c", t->str_open);
         assert(slen >= 0);
         len += (size_t)slen;
     }
 
     /* print content */
-    slen = snprintf(buf + len, sizeof(t->val), "%s", t->val);
+    slen = snprintf(buf + len, sizeof(t->val) + 1, "%s", t->val);
     assert(slen >= 0);
     len += (size_t)slen;
 
     /* print closing quote */
     if (t->str_close != '\0') {
-        slen = snprintf(buf + len, sizeof(t->str_close), "%c", t->str_close);
+        slen =
+            snprintf(buf + len, sizeof(t->str_close) + 1, "%c", t->str_close);
         assert(slen >= 0);
         len += (size_t)slen;
     }
@@ -61,12 +62,12 @@ size_t print_string(char *buf, size_t len, stoken_t *t) {
 size_t print_var(char *buf, size_t len, stoken_t *t) {
     int slen;
     if (t->count >= 1) {
-        slen = snprintf(buf + len, sizeof(char), "%c", '@');
+        slen = snprintf(buf + len, sizeof(char) + 1, "%c", '@');
         assert(slen >= 0);
         len += (size_t)slen;
     }
     if (t->count == 2) {
-        slen = snprintf(buf + len, sizeof(char), "%c", '@');
+        slen = snprintf(buf + len, sizeof(char) + 1, "%c", '@');
         assert(slen >= 0);
         len += (size_t)slen;
     }
@@ -119,7 +120,7 @@ size_t print_html5_token(char *buf, size_t len, h5_state_t *hs) {
 size_t print_token(char *buf, size_t len, stoken_t *t) {
     int slen;
 
-    slen = snprintf(buf + len, sizeof(t->type), "%c ", t->type);
+    slen = snprintf(buf + len, sizeof(t->type) + 2, "%c ", t->type);
     assert(slen >= 0);
     len += (size_t)slen;
     switch (t->type) {
@@ -134,7 +135,7 @@ size_t print_token(char *buf, size_t len, stoken_t *t) {
         assert(slen >= 0);
         len += (size_t)slen;
     }
-    slen = snprintf(buf + len, sizeof(char), "%c", '\n');
+    slen = snprintf(buf + len, sizeof(char) + 1, "%c", '\n');
     assert(slen >= 0);
     len += (size_t)slen;
     return len;
