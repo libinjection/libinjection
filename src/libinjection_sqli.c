@@ -90,6 +90,9 @@ typedef enum {
     TYPE_BACKSLASH = (int)'\\'
 } sqli_token_types;
 
+// prototype for is_backslash_escaped()
+static int is_backslash_escaped(const char *end, const char *start);
+
 /**
  * Initializes parsing state
  *
