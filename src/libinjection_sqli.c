@@ -93,6 +93,9 @@ typedef enum {
 // prototype for is_backslash_escaped()
 static int is_backslash_escaped(const char *end, const char *start);
 
+// prototype for is_backslash_escaped()
+static int is_backslash_escaped(const char *end, const char *start);
+
 /**
  * Initializes parsing state
  *
@@ -1203,7 +1206,8 @@ int libinjection_sqli_tokenize(struct libinjection_sqli_state *sf) {
     }
 
     st_clear(current);
-    sf->current = current;
+    sf->current =
+        current; // cppcheck-suppress[redundantAssignment,unmatchedSuppression]
 
     /*
      * if we are at beginning of string
