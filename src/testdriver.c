@@ -13,9 +13,9 @@ static char g_input[8096];
 static char g_expected[8096];
 
 size_t modp_rtrim(char *str, size_t len);
-size_t print_string(char *buf, size_t len, stoken_t *t);
-size_t print_var(char *buf, size_t len, stoken_t *t);
-size_t print_token(char *buf, size_t len, stoken_t *t);
+size_t print_string(char *buf, size_t len, const stoken_t *t);
+size_t print_var(char *buf, size_t len, const stoken_t *t);
+size_t print_token(char *buf, size_t len, const stoken_t *t);
 int read_file(const char *fname, int flags, int testtype);
 const char *h5_type_to_string(enum html5_type x);
 size_t print_html5_token(char *buf, size_t len, h5_state_t *hs);
@@ -33,7 +33,7 @@ size_t modp_rtrim(char *str, size_t len) {
     return len;
 }
 
-size_t print_string(char *buf, size_t len, stoken_t *t) {
+size_t print_string(char *buf, size_t len, const stoken_t *t) {
     int slen = 0;
 
     /* print opening quote */
@@ -58,7 +58,7 @@ size_t print_string(char *buf, size_t len, stoken_t *t) {
     return len;
 }
 
-size_t print_var(char *buf, size_t len, stoken_t *t) {
+size_t print_var(char *buf, size_t len, const stoken_t *t) {
     int slen;
     if (t->count >= 1) {
         slen = snprintf(buf + len, sizeof(char), "%c", '@');
@@ -101,7 +101,7 @@ const char *h5_type_to_string(enum html5_type x) {
     return "";
 }
 
-size_t print_html5_token(char *buf, size_t len, h5_state_t *hs) {
+size_t print_html5_token(char *buf, size_t len, const h5_state_t *hs) {
     int slen;
     char *tmp = (char *)malloc(hs->token_len + 1);
 
@@ -116,7 +116,7 @@ size_t print_html5_token(char *buf, size_t len, h5_state_t *hs) {
     return len;
 }
 
-size_t print_token(char *buf, size_t len, stoken_t *t) {
+size_t print_token(char *buf, size_t len, const stoken_t *t) {
     int slen;
 
     slen = snprintf(buf + len, sizeof(t->type), "%c ", t->type);

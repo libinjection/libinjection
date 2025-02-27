@@ -12,7 +12,7 @@ typedef struct {
 
 static size_t parse_money(sfilter *sf);
 static size_t parse_other(sfilter *sf);
-static size_t parse_white(sfilter *sf);
+static size_t parse_white(const sfilter *sf);
 static size_t parse_operator1(sfilter *sf);
 static size_t parse_char(sfilter *sf);
 static size_t parse_hash(sfilter *sf);

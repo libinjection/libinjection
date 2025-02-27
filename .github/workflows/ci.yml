@@ -32,7 +32,7 @@ jobs:
             --enable=all \
             --inconclusive \
             --suppress=variableScope \
-            --suppress=missingInclude \
+            --disable=missingInclude \
             --suppress=unusedFunction:src/fuzz/*.c \
             --quiet \
             --error-exitcode=1 \

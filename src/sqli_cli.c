@@ -15,12 +15,12 @@
 #include "libinjection.h"
 #include "libinjection_sqli.h"
 
-void print_string(stoken_t *t);
-void print_var(stoken_t *t);
-void print_token(stoken_t *t);
+void print_string(const stoken_t *t);
+void print_var(const stoken_t *t);
+void print_token(const stoken_t *t);
 void usage(void);
 
-void print_string(stoken_t *t) {
+void print_string(const stoken_t *t) {
     /* print opening quote */
     if (t->str_open != '\0') {
         printf("%c", t->str_open);
@@ -35,7 +35,7 @@ void print_string(stoken_t *t) {
     }
 }
 
-void print_var(stoken_t *t) {
+void print_var(const stoken_t *t) {
     if (t->count >= 1) {
         printf("%c", '@');
     }
@@ -45,7 +45,7 @@ void print_var(stoken_t *t) {
     print_string(t);
 }
 
-void print_token(stoken_t *t) {
+void print_token(const stoken_t *t) {
     printf("%c ", t->type);
     switch (t->type) {
     case 's':
