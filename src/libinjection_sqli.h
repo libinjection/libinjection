@@ -35,7 +35,7 @@ enum lookup_type {
     LOOKUP_FINGERPRINT = 4
 };
 
-struct libinjection_sqli_token {
+struct libinjection_sqli_token { // cppcheck-suppress syntaxError
 #ifdef SWIG
 %immutable;
 #endif

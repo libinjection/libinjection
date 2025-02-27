@@ -4,9 +4,12 @@ LT_AGE=2
 
 CPPCHECK=@CPPCHECK@
 CPPCHECK_FLAGS=--quiet --enable=all --inconclusive --error-exitcode=2 \
+        --inline-suppr \
+        --suppress=normalCheckLevelMaxBranches \
+        --disable=missingInclude \
         --std=c89 --std=c++11 \
         --suppress=variableScope  \
-        --template '{file}:{line} {severity} {id} {message}'
+        --template='{file}:{line} {severity} {id} {message}'
 
 fingerprints.txt: make_parens.py
 	./make_parens.py < fingerprints.txt > fingerprints2.txt

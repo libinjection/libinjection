@@ -20,7 +20,7 @@
 int urlcharmap(char ch);
 size_t modp_url_decode(char *dest, const char *s, size_t len);
 const char *h5_type_to_string(enum html5_type x);
-void print_html5_token(h5_state_t *hs);
+void print_html5_token(const h5_state_t *hs);
 
 int urlcharmap(char ch) {
     switch (ch) {
@@ -130,7 +130,7 @@ const char *h5_type_to_string(enum html5_type x) {
     }
 }
 
-void print_html5_token(h5_state_t *hs) {
+void print_html5_token(const h5_state_t *hs) {
     char *tmp = (char *)malloc(hs->token_len + 1);
     memcpy(tmp, hs->token_start, hs->token_len);
     /* TODO.. encode to be printable */
