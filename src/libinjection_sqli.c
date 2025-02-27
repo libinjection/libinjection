@@ -343,7 +343,8 @@ static int st_is_unary_op(const stoken_t *st) {
  *
  */
 
-static size_t parse_white(struct libinjection_sqli_state *sf) { // cppcheck-suppress constParameterCallback
+static size_t parse_white(struct libinjection_sqli_state
+                              *sf) { // cppcheck-suppress constParameterCallback
     return sf->pos + 1;
 }
 
@@ -1298,8 +1299,9 @@ void libinjection_sqli_callback(struct libinjection_sqli_state *sf,
  *  This is just:  multikeywords[token.value + ' ' + token2.value]
  *
  */
-static int syntax_merge_words(struct libinjection_sqli_state *sf, stoken_t *a,
-                              stoken_t *b) { // cppcheck-suppress constParameterPointer
+static int
+syntax_merge_words(struct libinjection_sqli_state *sf, stoken_t *a,
+                   stoken_t *b) { // cppcheck-suppress constParameterPointer
     size_t sz1;
     size_t sz2;
     size_t sz3;
@@ -2221,7 +2223,9 @@ int libinjection_sqli_not_whitelist(struct libinjection_sqli_state *sql_state) {
  *
  *
  */
-static int reparse_as_mysql(struct libinjection_sqli_state *sql_state) { // cppcheck-suppress constParameterPointer
+static int
+reparse_as_mysql(struct libinjection_sqli_state
+                     *sql_state) { // cppcheck-suppress constParameterPointer
     return sql_state->stats_comment_ddx || sql_state->stats_comment_hash;
 }
 
