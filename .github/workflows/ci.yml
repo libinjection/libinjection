@@ -31,6 +31,7 @@ jobs:
           cppcheck --std=c89 \
             --enable=all \
             --inconclusive \
+            --inline-suppr \
             --suppress=variableScope \
             --disable=missingInclude \
             --suppress=unusedFunction:src/fuzz/*.c \
