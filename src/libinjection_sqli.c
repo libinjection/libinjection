@@ -1204,7 +1204,8 @@ int libinjection_sqli_tokenize(struct libinjection_sqli_state *sf) {
     }
 
     st_clear(current);
-    sf->current = current; // cppcheck-suppress[redundantAssignment,unmatchedSuppression]
+    sf->current =
+        current; // cppcheck-suppress[redundantAssignment,unmatchedSuppression]
 
     /*
      * if we are at beginning of string

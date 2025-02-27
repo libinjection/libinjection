@@ -31,7 +31,6 @@ jobs:
           cppcheck --std=c89 \
             --enable=all \
             --inline-suppr \
-            --suppress=normalCheckLevelMaxBranches \
             --inconclusive \
             --suppress=variableScope \
             --disable=missingInclude \
