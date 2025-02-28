@@ -90,6 +90,9 @@ typedef enum {
     TYPE_BACKSLASH = (int)'\\'
 } sqli_token_types;
 
+// prototype for is_backslash_escaped()
+static int is_backslash_escaped(const char *end, const char *start);
+
 /**
  * Initializes parsing state
  *
@@ -340,7 +343,8 @@ static int st_is_unary_op(const stoken_t *st) {
  *
  */
 
-static size_t parse_white(struct libinjection_sqli_state *sf) {
+static size_t parse_white(struct libinjection_sqli_state
+                              *sf) { // cppcheck-suppress constParameterCallback
     return sf->pos + 1;
 }
 
@@ -1200,7 +1204,8 @@ int libinjection_sqli_tokenize(struct libinjection_sqli_state *sf) {
     }
 
     st_clear(current);
-    sf->current = current;
+    sf->current =
+        current; // cppcheck-suppress[redundantAssignment,unmatchedSuppression]
 
     /*
      * if we are at beginning of string
@@ -1295,8 +1300,9 @@ void libinjection_sqli_callback(struct libinjection_sqli_state *sf,
  *  This is just:  multikeywords[token.value + ' ' + token2.value]
  *
  */
-static int syntax_merge_words(struct libinjection_sqli_state *sf, stoken_t *a,
-                              stoken_t *b) {
+static int
+syntax_merge_words(struct libinjection_sqli_state *sf, stoken_t *a,
+                   stoken_t *b) { // cppcheck-suppress constParameterPointer
     size_t sz1;
     size_t sz2;
     size_t sz3;
@@ -2218,7 +2224,9 @@ int libinjection_sqli_not_whitelist(struct libinjection_sqli_state *sql_state) {
  *
  *
  */
-static int reparse_as_mysql(struct libinjection_sqli_state *sql_state) {
+static int
+reparse_as_mysql(struct libinjection_sqli_state
+                     *sql_state) { // cppcheck-suppress constParameterPointer
     return sql_state->stats_comment_ddx || sql_state->stats_comment_hash;
 }
 

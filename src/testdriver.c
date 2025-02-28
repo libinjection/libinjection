@@ -33,7 +33,8 @@ size_t modp_rtrim(char *str, size_t len) {
     return len;
 }
 
-size_t print_string(char *buf, size_t len, stoken_t *t) {
+size_t print_string(char *buf, size_t len,
+                    stoken_t *t) { // cppcheck-suppress constParameterPointer
     int slen = 0;
 
     /* print opening quote */
@@ -102,7 +103,9 @@ const char *h5_type_to_string(enum html5_type x) {
     return "";
 }
 
-size_t print_html5_token(char *buf, size_t len, h5_state_t *hs) {
+size_t
+print_html5_token(char *buf, size_t len,
+                  h5_state_t *hs) { // cppcheck-suppress constParameterPointer
     int slen;
     char *tmp = (char *)malloc(hs->token_len + 1);
 

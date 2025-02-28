@@ -9,15 +9,15 @@ jobs:
     name: Format check
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Run clang-format style check for C/C++ programs.
-      uses: jidicula/clang-format-action@v4.11.0
+      uses: jidicula/clang-format-action@v4.14.0
       with:
         clang-format-version: '16'
         check-path: 'src'
 
   cppcheck:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     name: cppcheck
     steps:
       - uses: actions/checkout@v4
@@ -30,17 +30,17 @@ jobs:
         run: |
           cppcheck --std=c89 \
             --enable=all \
+            --inline-suppr \
             --inconclusive \
             --suppress=variableScope \
-            --suppress=missingInclude \
-            --suppress=unusedFunction:src/fuzz/*.c \
+            --disable=missingInclude \
             --quiet \
             --error-exitcode=1 \
             --template='{file}:{line} {id} {severity} {message}' \
             .
 
   clang-static:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     name: clang static check
     steps:
       - uses: actions/checkout@v4
@@ -55,7 +55,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04]
+        os: [ubuntu-22.04, ubuntu-24.04]
         platform: [x32, x64]
         compiler: [gcc, clang]
     steps:
@@ -88,13 +88,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-12, macos-11]
+        os: [macos-14,macos-15]
         compiler: [gcc, clang]
     steps:
       - uses: actions/checkout@v4
 
       - name: Cache brew deps
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           # Paths to cache:
           # /usr/local/Homebrew - installation folder of Homebrew

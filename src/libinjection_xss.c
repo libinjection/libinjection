@@ -535,26 +535,30 @@ static const char *BLACKTAG[] = {
     NULL};
 
 static int cstrcasecmp_with_null(const char *a, const char *b, size_t n) {
+    unsigned int ai = 0, bi = 0;
     char ca;
     char cb;
     /* printf("Comparing to %s %.*s\n", a, (int)n, b); */
     while (n-- > 0) {
-        cb = *b++;
-        if (cb == '\0')
+        cb = b[bi++];
+        if (cb == '\0') {
             continue;
+        }
 
-        ca = *a++;
+        ca = a[ai++];
 
         if (cb >= 'a' && cb <= 'z') {
             cb -= 0x20;
         }
+
         /* printf("Comparing %c vs %c with %d left\n", ca, cb, (int)n); */
         if (ca != cb) {
             return 1;
         }
     }
+    ca = a[ai++];
 
-    if (*a == 0) {
+    if (ca == '\0') {
         /* printf(" MATCH \n"); */
         return 0;
     } else {
