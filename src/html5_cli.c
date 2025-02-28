@@ -130,7 +130,8 @@ const char *h5_type_to_string(enum html5_type x) {
     }
 }
 
-void print_html5_token(h5_state_t *hs) {
+void print_html5_token(
+    h5_state_t *hs) { // cppcheck-suppress constParameterPointer
     char *tmp = (char *)malloc(hs->token_len + 1);
     memcpy(tmp, hs->token_start, hs->token_len);
     /* TODO.. encode to be printable */
