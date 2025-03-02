@@ -574,8 +574,7 @@ static int cstrcasecmp_with_null(const char *a, const char *b, size_t n) {
  * return 1 if match / starts with
  * return 0 if not
  */                            /*const char* prefix, const char *src, size_t n*/
-static int htmlencode_startswith(const char *a,      const char *b,   size_t n)
-{
+static int htmlencode_startswith(const char *a, const char *b, size_t n) {
     size_t consumed;
     int cb;
     int first = 1;
@@ -741,13 +740,12 @@ static int is_black_url(const char *s, size_t len) {
     return 0;
 }
 
-injection_result_t libinjection_is_xss(const char *s, size_t len, int flags)
-{
+injection_result_t libinjection_is_xss(const char *s, size_t len, int flags) {
     h5_state_t h5;
     attribute_t attr = TYPE_NONE;
     injection_result_t parser_result;
 
-    libinjection_h5_init(&h5, s, len, (enum html5_flags) flags);
+    libinjection_h5_init(&h5, s, len, (enum html5_flags)flags);
     while ((parser_result = libinjection_h5_next(&h5)) == RESULT_TRUE) {
         if (h5.token_type != ATTR_VALUE) {
             attr = TYPE_NONE;
@@ -850,16 +848,20 @@ injection_result_t libinjection_xss(const char *s, size_t slen) {
     if ((result = libinjection_is_xss(s, slen, DATA_STATE)) != RESULT_FALSE) {
         return result;
     }
-    if ((result = libinjection_is_xss(s, slen, VALUE_NO_QUOTE)) != RESULT_FALSE) {
+    if ((result = libinjection_is_xss(s, slen, VALUE_NO_QUOTE)) !=
+        RESULT_FALSE) {
         return result;
     }
-    if ((result = libinjection_is_xss(s, slen, VALUE_SINGLE_QUOTE)) != RESULT_FALSE) {
+    if ((result = libinjection_is_xss(s, slen, VALUE_SINGLE_QUOTE)) !=
+        RESULT_FALSE) {
         return result;
     }
-    if ((result = libinjection_is_xss(s, slen, VALUE_DOUBLE_QUOTE)) != RESULT_FALSE) {
+    if ((result = libinjection_is_xss(s, slen, VALUE_DOUBLE_QUOTE)) !=
+        RESULT_FALSE) {
         return result;
     }
-    if ((result = libinjection_is_xss(s, slen, VALUE_BACK_QUOTE)) != RESULT_FALSE) {
+    if ((result = libinjection_is_xss(s, slen, VALUE_BACK_QUOTE)) !=
+        RESULT_FALSE) {
         return result;
     }
 

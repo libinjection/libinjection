@@ -51,7 +51,8 @@ const char *libinjection_version(void);
  * buffer of 8+ characters.  c-string, \return 1 if SQLi, 0 if benign.
  * fingerprint will be set or set to empty string.
  */
-injection_result_t libinjection_sqli(const char* s, size_t slen, char fingerprint[]);
+injection_result_t libinjection_sqli(const char *s, size_t slen,
+                                     char fingerprint[]);
 
 /** ALPHA version of xss detector.
  *
@@ -62,7 +63,7 @@ injection_result_t libinjection_sqli(const char* s, size_t slen, char fingerprin
  * if benign
  *
  */
-injection_result_t libinjection_xss(const char* s, size_t slen);
+injection_result_t libinjection_xss(const char *s, size_t slen);
 
 LIBINJECTION_END_DECLS
 

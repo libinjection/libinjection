@@ -1,10 +1,10 @@
 /**
-* LibInjection Project
-* BSD License -- see `COPYING.txt` for details
-*
-* https://github.com/libinjection/libinjection/
-*
-*/
+ * LibInjection Project
+ * BSD License -- see `COPYING.txt` for details
+ *
+ * https://github.com/libinjection/libinjection/
+ *
+ */
 
 #ifndef LIBINJECTION_ERROR_H
 #define LIBINJECTION_ERROR_H
@@ -23,4 +23,4 @@ typedef enum injection_result_t {
 }
 #endif
 
-#endif //LIBINJECTION_ERROR_H
+#endif // LIBINJECTION_ERROR_H

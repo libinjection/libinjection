@@ -205,7 +205,8 @@ void libinjection_sqli_init(struct libinjection_sqli_state *sf, const char *s,
  *
  * \return injection_result_t
  */
-injection_result_t libinjection_is_sqli(struct libinjection_sqli_state* sql_state);
+injection_result_t
+libinjection_is_sqli(struct libinjection_sqli_state *sql_state);
 
 /*  FOR HACKERS ONLY
  *   provides deep hooks into the decision making process
