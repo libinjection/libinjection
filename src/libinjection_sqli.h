@@ -19,6 +19,8 @@ extern "C" {
  */
 #include <string.h>
 
+#include "libinjection_error.h"
+
 enum sqli_flags {
     FLAG_NONE = 0,
     FLAG_QUOTE_NONE = 1,   /* 1 << 0 */
@@ -201,9 +203,9 @@ void libinjection_sqli_init(struct libinjection_sqli_state *sf, const char *s,
  *
  * \param sql_state core data structure
  *
- * \return 1 (true) if SQLi, 0 (false) if benign
+ * \return injection_result_t
  */
-int libinjection_is_sqli(struct libinjection_sqli_state *sql_state);
+injection_result_t libinjection_is_sqli(struct libinjection_sqli_state* sql_state);
 
 /*  FOR HACKERS ONLY
  *   provides deep hooks into the decision making process

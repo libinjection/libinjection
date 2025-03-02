@@ -44,10 +44,8 @@
 /* faster than calling out to libc isdigit */
 #define ISDIGIT(a) ((unsigned)((a) - '0') <= 9)
 
-#if 0
-#define FOLD_DEBUG                                                             \
-    printf("%d \t more=%d  pos=%d left=%d\n", __LINE__, more, (int)pos,        \
-           (int)left);
+#ifdef DEBUG
+#define FOLD_DEBUG printf("%d \t more=%d  pos=%d left=%d\n", __LINE__, more, (int)pos, (int)left);
 #else
 #define FOLD_DEBUG
 #endif
@@ -2163,8 +2161,8 @@ int libinjection_sqli_not_whitelist(struct libinjection_sqli_state *sql_state) {
          * and each string has data
          */
 
-        if (streq(sql_state->fingerprint, "sos") ||
-            streq(sql_state->fingerprint, "s&s")) {
+        if (streq(sql_state->fingerprint, "sos")
+            || streq(sql_state->fingerprint, "s&s")) {
 
             if ((sql_state->tokenvec[0].str_open == CHAR_NULL) &&
                 (sql_state->tokenvec[2].str_close == CHAR_NULL) &&
@@ -2315,7 +2313,7 @@ int libinjection_is_sqli(struct libinjection_sqli_state *sql_state) {
     return FALSE;
 }
 
-int libinjection_sqli(const char *s, size_t slen, char fingerprint[]) {
+injection_result_t libinjection_sqli(const char *s, size_t slen, char fingerprint[]) {
     int issqli;
     struct libinjection_sqli_state state;
 

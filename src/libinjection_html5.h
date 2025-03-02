@@ -9,6 +9,8 @@ extern "C" {
 
 #include <stddef.h>
 
+#include "libinjection_error.h"
+
 enum html5_type {
     DATA_TEXT,
     TAG_NAME_OPEN,
@@ -31,7 +33,7 @@ enum html5_flags {
 };
 
 struct h5_state;
-typedef int (*ptr_html5_state)(struct h5_state *);
+typedef int (*ptr_html5_state)(struct h5_state*);
 
 typedef struct h5_state {
     const char *s;
@@ -44,9 +46,9 @@ typedef struct h5_state {
     enum html5_type token_type;
 } h5_state_t;
 
-void libinjection_h5_init(h5_state_t *hs, const char *s, size_t len,
-                          enum html5_flags);
-int libinjection_h5_next(h5_state_t *hs);
+
+void libinjection_h5_init(h5_state_t* hs, const char* s, size_t len, enum html5_flags);
+injection_result_t libinjection_h5_next(h5_state_t* hs);
 
 #ifdef __cplusplus
 }
