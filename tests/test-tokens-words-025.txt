@@ -1,12 +1,10 @@
 --TEST--
 test char 160 (0xA0, 240) as word separator
 --INPUT--
-1 UNION SELECT 2--
+1ï¿½UNIONï¿½SELECTï¿½2--
 --EXPECTED--
 1 1
-U UNION
-E SELECT
-1 2
+n ï¿½UNIONï¿½SELECTï¿½2
 c --
 
 
