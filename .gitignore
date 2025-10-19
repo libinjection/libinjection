@@ -54,3 +54,6 @@ src/teststackxss
 
 src/fuzz/fuzzer
 src/fuzz/corpus
+
+src/libinjection_sqli_data.h
+src/sqlparse_data.json

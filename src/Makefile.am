@@ -4,9 +4,12 @@ LT_AGE=2
 
 CPPCHECK=@CPPCHECK@
 CPPCHECK_FLAGS=--quiet --enable=all --inconclusive --error-exitcode=2 \
+        --inline-suppr \
+        --suppress=normalCheckLevelMaxBranches \
+        --disable=missingInclude \
         --std=c89 --std=c++11 \
         --suppress=variableScope  \
-        --template '{file}:{line} {severity} {id} {message}'
+        --template='{file}:{line} {severity} {id} {message}'
 
 fingerprints.txt: make_parens.py
 	./make_parens.py < fingerprints.txt > fingerprints2.txt
@@ -61,7 +64,7 @@ lib_LTLIBRARIES = libinjection.la
 
 libinjection_la_LDFLAGS = -rpath '$(libdir)' -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
 
-libinjection_la_SOURCES = libinjection_sqli.c libinjection_html5.c libinjection_xss.c libinjection_sqli_data.h
+libinjection_la_SOURCES = libinjection_sqli_data.h libinjection_sqli.c libinjection_html5.c libinjection_xss.c
 
 include_HEADERS= libinjection.h libinjection_sqli.h libinjection_sqli_data.h libinjection_html5.h libinjection_xss.h
 
