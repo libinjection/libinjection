@@ -13,6 +13,7 @@ SQL / SQLI tokenizer parser analyzer. For
 * [Lua](/lua)
 * [Java](https://github.com/jeonglee/Libinjection) (external port)
 * [LuaJIT/FFI](https://github.com/p0pr0ck5/lua-ffi-libinjection) (external port)
+* [Ruby](https://github.com/roman-haidarov/rack-libinjection) (external port)
 
 Simple example:
 
