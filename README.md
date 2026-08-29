@@ -118,6 +118,24 @@ The filler need not be meaningful. `flush logs`, `reset query` and `help help`
 all work the same way. This is the limitation behind issues such as #26 and #61,
 and it is not something a new fingerprint can generally close.
 
+> [!WARNING]
+> **Do not raise `LIBINJECTION_SQLI_MAX_TOKENS`.** It is not a tuning knob. The
+> fingerprint database is built entirely from five-token patterns, and
+> `fingerprint[8]` and `tokenvec[8]` in `libinjection_sqli.h` are fixed-size
+> arrays. Raising the value makes detection *worse* and then unsafe:
+>
+> | value | result for `0); set @q=0x41; prepare stmt from @q; execute stmt;#` |
+> |-------|--------------------------------------------------------------------|
+> | 5     | `1);Ev` — detected |
+> | 6     | `1);Ev;` — **silently missed**, no error |
+> | 7     | crash (SIGABRT) |
+> | 8     | crash (SIGSEGV) |
+>
+> At 6 every fingerprint in the database stops matching the inputs it was written
+> for, and detection degrades with no diagnostic. Beyond that the fingerprint
+> buffer overflows. Widening the window would mean regenerating the entire
+> fingerprint database and resizing those arrays, not editing one `#define`.
+
 **Fingerprints are a deliberate tradeoff against false positives.** Some genuinely
 malicious patterns are left undetected because the fingerprint that would catch
 them also matches ordinary text. An unquoted `or 1=1` folds to `&1`, which is far
