@@ -24,8 +24,12 @@
 #ifndef LIBINJECTION_VERSION
 /* Default version for embedding without autotools.
  * Autotools and custom builds can override via -DLIBINJECTION_VERSION=\"...\"
+ *
+ * Bumped by release-please alongside version.txt; the x-release-please-version
+ * annotation below is what it keys off, and `make check-version-sync` fails
+ * the build if the two ever drift.
  */
-#define LIBINJECTION_VERSION "4.0.0"
+#define LIBINJECTION_VERSION "4.0.0" /* x-release-please-version */
 #endif
 
 #define LIBINJECTION_SQLI_TOKEN_SIZE sizeof(((stoken_t *)(0))->val)
