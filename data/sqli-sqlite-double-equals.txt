@@ -1,0 +1,67 @@
+# SQLite double-equals operator (==) SQL injection patterns
+# SQLite supports both = and == for equality comparison
+# https://www.sqlite.org/lang_expr.html#binaryops
+# Related to: https://github.com/libinjection/libinjection/issues/82
+# Downstream report: https://github.com/coreruleset/coreruleset/issues/4121
+
+# NOTE: '==' is a single operator token ('o' in sqlparse_map.py), so it folds
+# exactly like '='. Anything detected with '=' is detected with '==' and vice
+# versa; no '=='-specific fingerprints exist or are needed.
+#
+# The commented-out lines below are NOT detected -- but neither are their '='
+# equivalents (see "or 1=1" at the end of this file). Unquoted tautologies fold
+# to &1 / &1c / &1;c, which are too generic to be fingerprints without causing
+# false positives on legitimate SQL. That is a pre-existing libinjection
+# tradeoff, not a gap in '==' handling.
+
+# Basic tautologies with double-equals
+# or 1==1           # Not detected - too generic (&1)
+# or 1==1--         # Not detected - too generic (&1c)
+# or 1==1;--        # Not detected - too generic (&1;c)
+# or 1==1#          # Not detected - too generic
+# or 1==1/**/       # Not detected - too generic
+' or 1==1--
+' or 1==1#
+" or 1==1--
+" or 1==1#
+admin' or 1==1--
+admin' or 1==1#
+
+# With semicolon and comment
+# or 1==1;--        # Not detected - too generic (&1;c)
+# or 1==1;#         # Not detected - too generic (&1;c)
+' or 1==1;--
+' or 1==1;#
+
+# URL-encoded variations
+%27+or+1%3D%3D1--
+%27+or+1%3D%3D1%23
+admin%27+or+1%3D%3D1--
+
+# Classic username/password bypass variations
+admin' or '1'=='1
+' or 'x'=='x
+" or "1"=="1
+' or 'a'=='a'--
+
+# Mixed with other operators
+# or 2==2 and 1==1  # Not detected - too generic (&1)
+or 1==1 union select null--
+' or 1==1 order by 1--
+' or 1==1 limit 1--
+
+# Boolean-based blind SQLi
+or 1==1 and sleep(5)--
+' or 1==1 and 1==1--
+' or 1==1 and 2==2--
+
+# More complex patterns
+1' or '1'=='1' or '1'=='1
+admin' or 1==1 union select 1,2,3--
+' or ascii(substr(password,1,1))==97--
+
+# Testing that single = behaves the same
+# or 1=1            # Not detected - too generic (&1), same as "or 1==1"
+# or 1=1--          # Not detected - too generic (&1c), same as "or 1==1--"
+' or 1=1--
+admin' or 1=1#
