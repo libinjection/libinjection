@@ -11,7 +11,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 AC_CANONICAL_HOST
 
-AM_INIT_AUTOMAKE([1.11 check-news foreign silent-rules subdir-objects
+AM_INIT_AUTOMAKE([1.11 foreign silent-rules subdir-objects
     -Wall -Werror])
 AM_MAINTAINER_MODE
 
