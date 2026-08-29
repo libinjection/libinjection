@@ -69,6 +69,8 @@ jobs:
           ./autogen.sh
           ./configure
           make
+      - name: check version sync
+        run: make check-version-sync
       - name: test
         run: make -e check
 

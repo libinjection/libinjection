@@ -11,7 +11,7 @@ AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 AC_CANONICAL_HOST
 
-AM_INIT_AUTOMAKE([1.11 check-news foreign silent-rules subdir-objects
+AM_INIT_AUTOMAKE([1.11 foreign silent-rules subdir-objects
     -Wall -Werror])
 AM_MAINTAINER_MODE
 
@@ -101,6 +101,7 @@ LT_INIT
 AC_SUBST([LIBTOOL_DEPS])
 
 AC_PATH_TOOL(CLANG, clang)
+AC_PATH_TOOL(CLANG_FORMAT, clang-format)
 AC_PATH_TOOL(GCOV, gcov)
 AC_PATH_PROG(LCOV, lcov)
 AC_PATH_PROG(GENHTML, genhtml)
