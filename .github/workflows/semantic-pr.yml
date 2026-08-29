@@ -34,5 +34,5 @@ jobs:
           requireScope: false
           subjectPattern: ^(?![A-Z])(?!.*\.$).+$
           subjectPatternError: |
-            The subject "{subject}" of "{title}" is invalid: it must start with
-            a lowercase letter and must not end with a period.
+            The subject "{subject}" of "{title}" is invalid: it must not start
+            with an uppercase letter and must not end with a period.

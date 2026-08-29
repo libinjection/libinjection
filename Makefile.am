@@ -16,7 +16,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libinjection.pc
 
 # Standard stuff.
-EXTRA_DIST = bootstrap COPYING README.md CHANGELOG.md
+EXTRA_DIST = COPYING README.md CHANGELOG.md version.txt
 
 LIBTOOL_DEPS = @LIBTOOL_DEPS@
 libtool: $(LIBTOOL_DEPS)
