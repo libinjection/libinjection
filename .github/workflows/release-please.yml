@@ -1,0 +1,23 @@
+on:
+  push:
+    branches:
+      - main
+
+permissions: {}
+
+name: release-please
+
+jobs:
+  release-please:
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # ratchet:googleapis/release-please-action@v5.0.0
+        with:
+          # this is not recommended, but we don't run any actions on release
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
