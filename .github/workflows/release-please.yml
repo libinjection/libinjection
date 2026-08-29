@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - main
+
+permissions: {}
+
+name: release-please
+
+jobs:
+  release-please:
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # ratchet:googleapis/release-please-action@v5.0.0
+        with:
+          # Prefer a PAT: events triggered by GITHUB_TOKEN do not start new
+          # workflow runs, so the release PR would get no checks at all and
+          # branch protection would refuse to merge it. Falls back to
+          # GITHUB_TOKEN while RELEASE_PLEASE_TOKEN is not set, which still
+          # opens the release PR, just without CI on it.
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
