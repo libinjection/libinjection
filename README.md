@@ -97,6 +97,42 @@ typedef enum injection_result_t {
 
 **Migration:** See [MIGRATION.md](MIGRATION.md) for guidance on updating existing code.
 
+HOW DETECTION WORKS, AND WHAT IT MISSES
+=======================================
+
+libinjection is a heuristic, not a SQL parser. It tokenizes the input, folds the
+token stream, and looks up the result in a table of known-bad token patterns
+called fingerprints. Two properties of that design are worth understanding
+before you rely on it.
+
+**Only the first five folded tokens are examined.** `LIBINJECTION_SQLI_MAX_TOKENS`
+is 5, so a fingerprint describes the *beginning* of an input, not all of it. Text
+placed before a payload can push that payload out of the window:
+
+```
+0); set @q=0x53…            ->  1  )  ;  E(set)   v(@q)         ->  1);Ev   detected
+0); show warnings; set @q=…  ->  1  )  ;  n(show)  n(warnings)  ->  1);nn   missed
+```
+
+The filler need not be meaningful. `flush logs`, `reset query` and `help help`
+all work the same way. This is the limitation behind issues such as #26 and #61,
+and it is not something a new fingerprint can generally close.
+
+**Fingerprints are a deliberate tradeoff against false positives.** Some genuinely
+malicious patterns are left undetected because the fingerprint that would catch
+them also matches ordinary text. An unquoted `or 1=1` folds to `&1`, which is far
+too generic to flag. Conversely, prose that happens
+to tokenize like SQL does get flagged — `total (5); tax included` folds to `f(1);`
+and is reported as an injection.
+
+Neither property is a bug to be fixed in isolation. Both follow from choosing a
+fast, allocation-free heuristic over a real parser.
+
+**What this means in practice:** treat a libinjection hit as one signal among
+several rather than a verdict, and do not treat a miss as proof that input is
+safe. Deployments such as the OWASP CRS combine it with independent rules at
+higher paranoia levels for this reason.
+
 QUALITY AND DIAGNOSITICS
 ========================
 
