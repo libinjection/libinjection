@@ -118,6 +118,33 @@ The filler need not be meaningful. `flush logs`, `reset query` and `help help`
 all work the same way. This is the limitation behind issues such as #26 and #61,
 and it is not something a new fingerprint can generally close.
 
+**Length is not the axis.** An input is parsed in up to five contexts, stopping
+at the first one whose fingerprint matches:
+
+```
+FLAG_QUOTE_NONE   | FLAG_SQL_ANSI     always
+FLAG_QUOTE_NONE   | FLAG_SQL_MYSQL    only if the input used a # or /*! comment
+FLAG_QUOTE_SINGLE | FLAG_SQL_ANSI     only if the input contains '
+FLAG_QUOTE_SINGLE | FLAG_SQL_MYSQL    only if it contains ' and used # or /*!
+FLAG_QUOTE_DOUBLE | FLAG_SQL_MYSQL    only if the input contains "
+```
+
+The quoted contexts re-read the input as though it began inside a string
+literal, so everything before the first quote becomes a single token, and a long
+prefix costs one slot rather than many:
+
+```
+plain-asni :  nnnnn   <- 1760 characters of filler exhausts the window
+single-ansi:  s&1c    <- same input, the filler collapses to one `s`, payload intact
+```
+
+A 5 KB input carrying a quoted payload is detected; the 58-byte example above is
+not. Note that the example has no quote in it at all, so only the two unquoted
+contexts ever run and no prefix collapsing is available to it.
+
+Do not gate calls to libinjection on input length. Doing so skips detections that
+would otherwise be made, and does not skip the inputs that are actually missed.
+
 > [!WARNING]
 > **Do not raise `LIBINJECTION_SQLI_MAX_TOKENS`.** It is not a tuning knob. The
 > fingerprint database is built from fingerprints that are at most five folded tokens long, and several internal buffers assume that size (for example `char fp2[8]` in `src/libinjection_sqli.c` and `fingerprint[8]` / `tokenvec[8]` in `src/libinjection_sqli.h`). Raising the value makes detection *worse* and then unsafe:
