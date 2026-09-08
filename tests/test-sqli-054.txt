@@ -1,0 +1,6 @@
+--TEST--
+subquery injected after a closed tuple, variable value
+--INPUT--
+@v), (SELECT a FROM b) --
+--EXPECTED--
+v),(E
