@@ -107,6 +107,8 @@ static void test_html5_state_handling(void) {
     injection_result_t result;
     const char *html;
     const char *malformed;
+    const char *high_byte;
+    int saw_attr;
     char *nested;
 
     TEST_START("HTML5 parser initialized properly");
@@ -124,6 +126,18 @@ static void test_html5_state_handling(void) {
     /* Should finish without error or with controlled error */
     TEST_END(result == LIBINJECTION_RESULT_FALSE ||
              result == LIBINJECTION_RESULT_ERROR);
+
+    TEST_START("HTML5 parser does not treat a 0xFF byte as end of input");
+    high_byte = "<input \xff onfocus=alert(1)>";
+    saw_attr = 0;
+    libinjection_h5_init(&hs, high_byte, strlen(high_byte), DATA_STATE);
+    while (libinjection_h5_next(&hs) == LIBINJECTION_RESULT_TRUE) {
+        if (hs.token_type == ATTR_NAME && hs.token_len == 7 &&
+            memcmp(hs.token_start, "onfocus", 7) == 0) {
+            saw_attr = 1;
+        }
+    }
+    TEST_END(saw_attr);
 
     nested = malloc(10000);
     if (nested != NULL) {
