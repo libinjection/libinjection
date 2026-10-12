@@ -1600,7 +1600,13 @@ int libinjection_sqli_fold(struct libinjection_sqli_state *sf) {
                                 sf->tokenvec[left].len) == 0 ||
                     cstrcasecmp("NOT LIKE", sf->tokenvec[left].val,
                                 sf->tokenvec[left].len) == 0)) {
-            if (sf->tokenvec[left + 1].type == TYPE_LEFTPARENS) {
+            if (sf->tokenvec[left + 1].type == TYPE_LEFTPARENS &&
+                !(left > 0 &&
+                  (sf->tokenvec[left - 1].type == TYPE_NUMBER ||
+                   sf->tokenvec[left - 1].type == TYPE_STRING ||
+                   sf->tokenvec[left - 1].type == TYPE_BAREWORD ||
+                   sf->tokenvec[left - 1].type == TYPE_VARIABLE ||
+                   sf->tokenvec[left - 1].type == TYPE_RIGHTPARENS))) {
                 /* SELECT LIKE(...
                  * it's a function
                  */
