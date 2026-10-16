@@ -297,6 +297,11 @@ int main(int argc, char **argv) {
     }
 
     printf("# %s\n", libinjection_version());
+    if (argc == offset) {
+        /* an empty plan ("1..0") would be reported as a skip, not an error */
+        printf("Bail out! no test files given\n");
+        return 1;
+    }
     printf("1..%d\n", argc - offset);
 
     for (i = offset; i < argc; ++i) {
