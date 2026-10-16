@@ -138,7 +138,7 @@ static int h5_state_eof(h5_state_t *hs) {
     return 0;
 }
 
-static injection_result_t h5_state_data(h5_state_t *hs) {
+static int h5_state_data(h5_state_t *hs) {
     const char *idx;
 
     TRACE();

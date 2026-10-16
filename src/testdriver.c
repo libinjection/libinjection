@@ -1,3 +1,6 @@
+/* snprintf is C99/POSIX; glibc hides it under -ansi without this */
+#define _POSIX_C_SOURCE 200112L
+
 #include "libinjection.h"
 #include "libinjection_html5.h"
 #include "libinjection_sqli.h"
@@ -34,7 +37,7 @@ size_t modp_rtrim(char *str, size_t len) {
 }
 
 size_t print_string(char *buf, size_t len,
-                    stoken_t *t) { // cppcheck-suppress constParameterPointer
+                    stoken_t *t) { /* cppcheck-suppress constParameterPointer */
     int slen = 0;
 
     /* print opening quote */
@@ -103,17 +106,17 @@ const char *h5_type_to_string(enum html5_type x) {
     return "";
 }
 
-size_t
-print_html5_token(char *buf, size_t len,
-                  h5_state_t *hs) { // cppcheck-suppress constParameterPointer
+size_t print_html5_token(
+    char *buf, size_t len,
+    h5_state_t *hs) { /* cppcheck-suppress constParameterPointer */
     int slen;
+    const char *h5_string = h5_type_to_string(hs->token_type);
     char *tmp = (char *)malloc(hs->token_len + 1);
 
     assert(tmp != NULL);
     memcpy(tmp, hs->token_start, hs->token_len);
     /* TODO.. encode to be printable */
     tmp[hs->token_len] = '\0';
-    const char *h5_string = h5_type_to_string(hs->token_type);
     slen = sprintf(buf + len, "%s,%d,%s\n", h5_string, (int)hs->token_len, tmp);
     len += (size_t)slen;
     free(tmp);

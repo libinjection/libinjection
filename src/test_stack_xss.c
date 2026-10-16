@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <stdlib.h>
-#include <strings.h>
+#include <string.h>
 
 #include "libinjection.h"
 
@@ -23,7 +23,7 @@ int main(void) {
     memset(input, '/', input_size);
     input[input_size - 1] = '\0';
 
-    // should not crash
+    /* should not crash */
     libinjection_xss(input, strlen(input));
 
     return 0;

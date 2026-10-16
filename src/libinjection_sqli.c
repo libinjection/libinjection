@@ -96,8 +96,37 @@ typedef enum {
     TYPE_BACKSLASH = (int)'\\'
 } sqli_token_types;
 
-// prototype for is_backslash_escaped()
+/* prototype for is_backslash_escaped() */
 static int is_backslash_escaped(const char *end, const char *start);
+
+/*
+ * Resets state, but keeps initial string and callbacks
+ */
+static void libinjection_sqli_reset(struct libinjection_sqli_state *sf,
+                                    int flags);
+
+/**
+ * The default "word" to token-type or fingerprint function.  This
+ * uses a ASCII case-insensitive binary tree.
+ */
+static char
+libinjection_sqli_lookup_word(struct libinjection_sqli_state *sql_state,
+                              int lookup_type, const char *str, size_t len);
+
+/* Given a pattern determine if it's a SQLi pattern.
+ *
+ * \return TRUE if sqli, false otherwise
+ */
+static int
+libinjection_sqli_blacklist(struct libinjection_sqli_state *sql_state);
+
+/* Given a positive match for a pattern (i.e. pattern is SQLi), this function
+ * does additional analysis to reduce false positives.
+ *
+ * \return TRUE if SQLi, false otherwise
+ */
+static int
+libinjection_sqli_not_whitelist(struct libinjection_sqli_state *sql_state);
 
 /**
  * Initializes parsing state
@@ -349,8 +378,9 @@ static int st_is_unary_op(const stoken_t *st) {
  *
  */
 
-static size_t parse_white(struct libinjection_sqli_state
-                              *sf) { // cppcheck-suppress constParameterCallback
+static size_t
+parse_white(struct libinjection_sqli_state
+                *sf) { /* cppcheck-suppress constParameterCallback */
     return sf->pos + 1;
 }
 
@@ -1216,8 +1246,8 @@ int libinjection_sqli_tokenize(struct libinjection_sqli_state *sf) {
     }
 
     st_clear(current);
-    sf->current = // cppcheck-suppress[redundantAssignment,unmatchedSuppression]
-        current;
+    /* cppcheck-suppress[redundantAssignment,unmatchedSuppression] */
+    sf->current = current;
 
     /*
      * if we are at beginning of string
@@ -1315,7 +1345,7 @@ void libinjection_sqli_callback(struct libinjection_sqli_state *sf,
  */
 static int
 syntax_merge_words(struct libinjection_sqli_state *sf, stoken_t *a,
-                   stoken_t *b) { // cppcheck-suppress constParameterPointer
+                   stoken_t *b) { /* cppcheck-suppress constParameterPointer */
     size_t sz1;
     size_t sz2;
     size_t sz3;
@@ -2247,7 +2277,7 @@ libinjection_sqli_not_whitelist(struct libinjection_sqli_state *sql_state) {
  */
 static int
 reparse_as_mysql(struct libinjection_sqli_state
-                     *sql_state) { // cppcheck-suppress constParameterPointer
+                     *sql_state) { /* cppcheck-suppress constParameterPointer */
     return sql_state->stats_comment_ddx || sql_state->stats_comment_hash;
 }
 
@@ -2262,7 +2292,8 @@ libinjection_sqli_get_token(struct libinjection_sqli_state *sql_state, int i) {
     return &(sql_state->tokenvec[i]);
 }
 
-int libinjection_is_sqli(struct libinjection_sqli_state *sql_state) {
+injection_result_t
+libinjection_is_sqli(struct libinjection_sqli_state *sql_state) {
     const char *s = sql_state->s;
     size_t slen = sql_state->slen;
 
