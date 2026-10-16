@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -25,6 +26,8 @@ int main(void) {
 
     /* should not crash */
     libinjection_xss(input, strlen(input));
+    free(input);
 
+    printf("1..1\nok 1 - deep XSS input does not overflow the stack\n");
     return 0;
 }

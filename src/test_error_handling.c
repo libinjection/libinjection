@@ -24,15 +24,15 @@ static int tests_passed = 0;
 
 #define TEST_START(name)                                                       \
     do {                                                                       \
-        tests_run++;                                                           \
-        printf("Test %d: %s ... ", tests_run, name);
+        const char *test_name = name;                                          \
+        tests_run++;
 
 #define TEST_END(condition)                                                    \
     if (condition) {                                                           \
         tests_passed++;                                                        \
-        printf("PASS\n");                                                      \
+        printf("ok %d - %s\n", tests_run, test_name);                          \
     } else {                                                                   \
-        printf("FAIL\n");                                                      \
+        printf("not ok %d - %s\n", tests_run, test_name);                      \
     }                                                                          \
     }                                                                          \
     while (0)
@@ -213,25 +213,15 @@ static void test_backward_compatibility(void) {
     TEST_END(!result); /* Should be falsy (LIBINJECTION_RESULT_FALSE = 0) */
 }
 
+/* Emits TAP (https://testanything.org); the plan is printed last. */
 int main(void) {
-    printf("=== LibInjection Error Handling Test Suite ===\n\n");
-
     test_normal_inputs();
     test_edge_cases();
     test_html5_state_handling();
     test_no_abort_on_error();
     test_backward_compatibility();
 
-    printf("\n=== Test Summary ===\n");
-    printf("Tests run:    %d\n", tests_run);
-    printf("Tests passed: %d\n", tests_passed);
-    printf("Tests failed: %d\n", tests_run - tests_passed);
-
-    if (tests_run == tests_passed) {
-        printf("\nAll tests PASSED!\n");
-        return 0;
-    } else {
-        printf("\nSome tests FAILED!\n");
-        return 1;
-    }
+    printf("1..%d\n", tests_run);
+    printf("# passed %d of %d\n", tests_passed, tests_run);
+    return tests_run == tests_passed ? 0 : 1;
 }
