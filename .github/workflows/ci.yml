@@ -77,8 +77,10 @@ jobs:
       - name: clean
         run: make clean
 
+      # configure bakes CFLAGS into the Makefile, so pass it on the command
+      # line; an env var alone is ignored by make.
       - name: build pedantic
-        run: make
+        run: make CFLAGS="$CFLAGS"
         env:
           CFLAGS: '-Wall -Wextra -Werror -pedantic -ansi -g -O1'
       - name: test valgrind
@@ -119,7 +121,9 @@ jobs:
         run: make -e check
       - name: clean
         run: make clean
+      # configure bakes CFLAGS into the Makefile, so pass it on the command
+      # line; an env var alone is ignored by make.
       - name: build pedantic
-        run: make all
+        run: make all CFLAGS="$CFLAGS"
         env:
           CFLAGS: '-Wall -Wextra -Werror -pedantic -ansi -g -O1'
