@@ -17,6 +17,8 @@ pkgconfig_DATA = libinjection.pc
 
 # Standard stuff.
 EXTRA_DIST = COPYING README.md CHANGELOG.md version.txt
+# Golden files and sample corpora used by `make check`
+EXTRA_DIST += tests data
 
 LIBTOOL_DEPS = @LIBTOOL_DEPS@
 libtool: $(LIBTOOL_DEPS)

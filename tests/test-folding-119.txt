@@ -1,0 +1,10 @@
+--TEST--
+LIKE after an operand followed by a parenthesis is an operator, not a function
+--INPUT--
+1 LIKE (SELECT 1)
+--EXPECTED--
+1 1
+o LIKE
+( (
+E SELECT
+1 1

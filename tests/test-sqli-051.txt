@@ -1,0 +1,6 @@
+--TEST--
+SQLi, LIKE with scalar subquery (coreruleset/coreruleset#4855)
+--INPUT--
+' OR (8459 LIKE (SELECT 8459)) * 4906 -- 
+--EXPECTED--
+s&(1o
