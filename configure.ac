@@ -8,10 +8,11 @@ AC_INIT(
     [https://github.com/libinjection/libinjection])
 
 AC_CONFIG_AUX_DIR([build-aux])
+AC_REQUIRE_AUX_FILE([tap-driver.sh])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 AC_CANONICAL_HOST
 
-AM_INIT_AUTOMAKE([1.11 foreign silent-rules subdir-objects
+AM_INIT_AUTOMAKE([1.13 foreign silent-rules subdir-objects
     -Wall -Werror])
 AM_MAINTAINER_MODE
 

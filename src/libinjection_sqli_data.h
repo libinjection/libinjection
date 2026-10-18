@@ -9646,5 +9646,6 @@ static const keyword_t sql_keywords[] = {
     {"||", '&'},
     {"~*", 'o'},
 };
-static const size_t sql_keywords_sz = 9351;
+static const size_t sql_keywords_sz =
+    sizeof(sql_keywords) / sizeof(sql_keywords[0]);
 #endif
