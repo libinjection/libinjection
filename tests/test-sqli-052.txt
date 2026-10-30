@@ -1,0 +1,6 @@
+--TEST--
+SQLi, _utf8mb4 charset introducer (libinjection/libinjection#98)
+--INPUT--
+' OR NOT _utf8mb4''#
+--EXPECTED--
+s&sc
