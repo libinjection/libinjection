@@ -28,6 +28,24 @@ Include, where you can:
 This is a volunteer-maintained project, so response times are best effort.
 Reporters are credited in the published advisory unless they prefer otherwise.
 
+## AI disclosure
+
+If AI tools (LLMs, agents, automated scanners) were used to find the issue,
+write the proof of concept, or draft the report, say so in the advisory and
+name the tool where you can. Disclosure is not held against a report.
+
+Whoever submits the report is responsible for it. Before opening an advisory:
+
+- reproduce the problem yourself against a current release or commit, and
+  include the exact input and a minimal reproducer,
+- check any claimed impact, file, and line references by hand, and
+- do not paste unreviewed model output as the report.
+
+Reports that cannot be reproduced, or that read as unverified generated text,
+may be closed without further analysis. The same applies to patches: say if a
+proposed fix was AI-assisted, and expect it to be reviewed like any other
+outside change.
+
 ## What counts as a vulnerability
 
 In scope:
