@@ -29,7 +29,7 @@
  * annotation below is what it keys off, and `make check-version-sync` fails
  * the build if the two ever drift.
  */
-#define LIBINJECTION_VERSION "4.0.0" /* x-release-please-version */
+#define LIBINJECTION_VERSION "4.0.1" /* x-release-please-version */
 #endif
 
 #define LIBINJECTION_SQLI_TOKEN_SIZE sizeof(((stoken_t *)(0))->val)
