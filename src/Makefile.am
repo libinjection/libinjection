@@ -47,6 +47,13 @@ analyze:
 	-Xanalyzer -analyzer-checker=alpha.security.ReturnPtrRange \
 	-Xanalyzer -analyzer-checker=alpha.unix.cstring.BufferOverlap \
 	-Xanalyzer -analyzer-checker=alpha.unix.cstring.OutOfBounds \
+	-Xanalyzer -analyzer-checker=alpha.unix.cstring.UninitializedRead \
+	-Xanalyzer -analyzer-checker=optin.core.EnumCastOutOfRange \
+	-Xanalyzer -analyzer-checker=optin.core.FixedAddressDereference \
+	-Xanalyzer -analyzer-checker=optin.taint.TaintedAlloc \
+	-Xanalyzer -analyzer-checker=optin.taint.TaintedDiv \
+	-Xanalyzer -analyzer-checker=security.ArrayBound \
+	-Xanalyzer -analyzer-checker=security.PointerSub \
 	libinjection*.c 2>&1 | tee /tmp/libinjection-analyze.txt
 	test ! -s /tmp/libinjection-analyze.txt
 
