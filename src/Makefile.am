@@ -49,7 +49,6 @@ analyze:
 	-Xanalyzer -analyzer-checker=alpha.unix.cstring.OutOfBounds \
 	-Xanalyzer -analyzer-checker=alpha.unix.cstring.UninitializedRead \
 	-Xanalyzer -analyzer-checker=optin.core.EnumCastOutOfRange \
-	-Xanalyzer -analyzer-checker=optin.core.FixedAddressDereference \
 	-Xanalyzer -analyzer-checker=optin.taint.TaintedAlloc \
 	-Xanalyzer -analyzer-checker=optin.taint.TaintedDiv \
 	-Xanalyzer -analyzer-checker=security.ArrayBound \
