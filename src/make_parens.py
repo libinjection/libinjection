@@ -39,6 +39,11 @@ class PermuteFingerprints(object):
             "nknc",
             "son1n",
             "n&nBn",
+            # bareword op bareword, with the right operand wrapped in a
+            # function call: "Rate is 0.02/min (EU)".  'non' and 'nos' are
+            # already rejected as too FP-prone; the f(1)/f() substitutions
+            # below rebuild that shape and slip past those checks.
+            "nof(n",
             ])
         self.whitelist = set([
             'T(vv)', 'Tnvos', 'Tnv;', '1UEnn', '1;Tvk'
