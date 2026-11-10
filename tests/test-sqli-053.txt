@@ -1,0 +1,6 @@
+--TEST--
+SQLi, _ucs2 charset introducer (libinjection/libinjection#98)
+--INPUT--
+' OR NOT _ucs2''#
+--EXPECTED--
+s&sc

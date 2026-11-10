@@ -33,6 +33,7 @@ jobs:
             --inline-suppr \
             --inconclusive \
             --suppress=variableScope \
+            --suppress=normalCheckLevelMaxBranches \
             --disable=missingInclude \
             --quiet \
             --error-exitcode=1 \
