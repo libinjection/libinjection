@@ -40,9 +40,10 @@ class PermuteFingerprints(object):
             "son1n",
             "n&nBn",
             # bareword op bareword, with the right operand wrapped in a
-            # function call: "Rate is 0.02/min (EU)".  'non' and 'nos' are
-            # already rejected as too FP-prone; the f(1)/f() substitutions
-            # below rebuild that shape and slip past those checks.
+            # function call: "Rate is 0.02/min (EU)".  The 'non' substring
+            # check and the 'nos' entry already reject the base shapes as
+            # too FP-prone; the f(1)/f() substitutions below rebuild that
+            # shape and slip past those checks.
             "nof(n",
             ])
         self.whitelist = set([
