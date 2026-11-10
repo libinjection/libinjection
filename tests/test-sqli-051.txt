@@ -1,6 +1,6 @@
 --TEST--
-subquery injected after a closed tuple, numeric value
+SQLi, LIKE with scalar subquery (coreruleset/coreruleset#4855)
 --INPUT--
-1), (SELECT email FROM client) --
+' OR (8459 LIKE (SELECT 8459)) * 4906 -- 
 --EXPECTED--
-1),(E
+s&(1o

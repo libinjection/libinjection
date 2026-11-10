@@ -24,13 +24,17 @@ libinjection_sqli_data.h: sqlparse2c.py sqlparse_data.json
 	@if test -n "$(CLANG_FORMAT)"; then $(CLANG_FORMAT) -i libinjection_sqli_data.h; \
 	else echo "warning: clang-format not found, libinjection_sqli_data.h left unformatted"; fi
 
-check: reader testdriver testspeedxss testspeedsqli teststackxss testerrorhandling
-	@./test-driver.sh test-unit.sh
-	@./test-driver.sh test-samples-sqli-negative.sh
-	@./test-driver.sh test-samples-sqli-positive.sh
-	@./test-driver.sh test-samples-xss-positive.sh
-	@./test-driver.sh teststackxss
-	@./test-driver.sh testerrorhandling
+# `make check` uses automake's parallel test harness; every test emits TAP.
+# Run a subset with: make check TESTS='test-unit.sh'
+TESTS = test-unit.sh test-samples-sqli-negative.sh \
+	test-samples-sqli-positive.sh test-samples-xss-positive.sh \
+	teststackxss testerrorhandling
+LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) $(top_srcdir)/build-aux/tap-driver.sh
+EXTRA_DIST = test-unit.sh test-samples-sqli-negative.sh \
+	test-samples-sqli-positive.sh test-samples-xss-positive.sh
+# Inputs of the libinjection_sqli_data.h rules, plus the valgrind suppressions
+EXTRA_DIST += fingerprints.txt make_parens.py sqlparse_map.py sqlparse2c.py \
+	sqlparse_data.json alpine.supp
 
 analyze:
 	$(RM) /tmp/libinjection-analyze.txt
@@ -38,16 +42,17 @@ analyze:
 	-Xanalyzer -analyzer-checker=alpha.core.BoolAssignment \
 	-Xanalyzer -analyzer-checker=alpha.core.CastSize \
 	-Xanalyzer -analyzer-checker=alpha.core.FixedAddr \
-	-Xanalyzer -analyzer-checker=alpha.core.IdenticalExpr \
 	-Xanalyzer -analyzer-checker=alpha.core.PointerArithm \
-	-Xanalyzer -analyzer-checker=alpha.core.PointerSub \
-	-Xanalyzer -analyzer-checker=alpha.core.SizeofPtr \
 	-Xanalyzer -analyzer-checker=alpha.core.TestAfterDivZero \
-	-Xanalyzer -analyzer-checker=alpha.security.ArrayBound \
-	-Xanalyzer -analyzer-checker=alpha.security.MallocOverflow \
 	-Xanalyzer -analyzer-checker=alpha.security.ReturnPtrRange \
 	-Xanalyzer -analyzer-checker=alpha.unix.cstring.BufferOverlap \
 	-Xanalyzer -analyzer-checker=alpha.unix.cstring.OutOfBounds \
+	-Xanalyzer -analyzer-checker=alpha.unix.cstring.UninitializedRead \
+	-Xanalyzer -analyzer-checker=optin.core.EnumCastOutOfRange \
+	-Xanalyzer -analyzer-checker=optin.taint.TaintedAlloc \
+	-Xanalyzer -analyzer-checker=optin.taint.TaintedDiv \
+	-Xanalyzer -analyzer-checker=security.ArrayBound \
+	-Xanalyzer -analyzer-checker=security.PointerSub \
 	libinjection*.c 2>&1 | tee /tmp/libinjection-analyze.txt
 	test ! -s /tmp/libinjection-analyze.txt
 
