@@ -1,0 +1,6 @@
+--TEST--
+sqli test
+--INPUT--
+' or 1==1;--
+--EXPECTED--
+s&1;c
