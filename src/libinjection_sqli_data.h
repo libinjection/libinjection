@@ -9614,6 +9614,7 @@ static const keyword_t sql_keywords[] = {
     {"_BINARY", 't'},
     {"_CP1250", 't'},
     {"_CP1251", 't'},
+    {"_CP1256", 't'},
     {"_CP1257", 't'},
     {"_CP850", 't'},
     {"_CP852", 't'},
@@ -9622,6 +9623,7 @@ static const keyword_t sql_keywords[] = {
     {"_DEC8", 't'},
     {"_EUCJPMS", 't'},
     {"_EUCKR", 't'},
+    {"_GB18030", 't'},
     {"_GB2312", 't'},
     {"_GBK", 't'},
     {"_GEOSTD8", 't'},
@@ -9640,13 +9642,19 @@ static const keyword_t sql_keywords[] = {
     {"_SJIS", 't'},
     {"_SWE7", 't'},
     {"_TIS620", 't'},
+    {"_UCS2", 't'},
     {"_UJIS", 't'},
-    {"_USC2", 't'},
+    {"_UTF16", 't'},
+    {"_UTF16LE", 't'},
+    {"_UTF32", 't'},
     {"_UTF8", 't'},
+    {"_UTF8MB3", 't'},
+    {"_UTF8MB4", 't'},
     {"|/", 'o'},
     {"|=", 'o'},
     {"||", '&'},
     {"~*", 'o'},
 };
-static const size_t sql_keywords_sz = 9353;
+static const size_t sql_keywords_sz =
+    sizeof(sql_keywords) / sizeof(sql_keywords[0]);
 #endif
