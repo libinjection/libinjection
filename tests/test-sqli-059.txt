@@ -1,0 +1,5 @@
+--TEST--
+bareword op bareword (EU) in prose is not SQLi, nof(n fingerprint removed
+--INPUT--
+Rate is 0.02/min (EU) and 0.035/min (US)
+--EXPECTED--
