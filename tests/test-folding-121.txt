@@ -1,0 +1,6 @@
+--TEST--
+IS NOT is merged into one operator instead of dropping NOT
+--INPUT--
+UserID IS NOT 2
+--EXPECTED--
+n UserID

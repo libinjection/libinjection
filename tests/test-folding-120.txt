@@ -1,0 +1,10 @@
+--TEST--
+IS between a bareword and a number is not folded (libinjection/libinjection#106)
+--INPUT--
+Rate is 0.02/min (EU)
+--EXPECTED--
+n Rate
+o is
+1 0.02
+o /
+f min

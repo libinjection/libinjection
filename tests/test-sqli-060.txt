@@ -1,0 +1,6 @@
+--TEST--
+SQLi, IS NOT with a number after a bareword still folds
+--INPUT--
+' OR UserID IS NOT 2
+--EXPECTED--
+s&n

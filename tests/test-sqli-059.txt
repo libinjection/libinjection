@@ -1,0 +1,6 @@
+--TEST--
+SQLi, time-based payload sharing nof(f with the #106 prose
+--INPUT--
+x=abs(sleep(5))
+--EXPECTED--
+nof(f

@@ -1,0 +1,6 @@
+--TEST--
+SQLi, IS followed by the MySQL NULL alias \N still folds
+--INPUT--
+'is\N-!'
+--EXPECTED--
+sos

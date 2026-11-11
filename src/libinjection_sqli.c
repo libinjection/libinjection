@@ -353,6 +353,43 @@ static int st_is_arithmetic_op(const stoken_t *st) {
             (ch == '*' || ch == '/' || ch == '-' || ch == '+' || ch == '%'));
 }
 
+/*
+ * "IS" followed by "NOT".  NOT must not be dropped as a unary operator
+ * here, so that the two words get merged into the single "IS NOT" operator.
+ */
+static int st_is_is_not(const stoken_t *a, const stoken_t *b) {
+    return (a->type == TYPE_OPERATOR && a->len == 2 &&
+            cstrcasecmp("IS", a->val, 2) == 0 && b->len == 3 &&
+            cstrcasecmp("NOT", b->val, 3) == 0);
+}
+
+/*
+ * "word IS 0.02" or "word IS foo": plain IS between a bareword and a number
+ * or another bareword.  MySQL and PostgreSQL only accept NULL, TRUE, FALSE,
+ * UNKNOWN (or NOT / DISTINCT FROM) after IS, so this is far more likely to
+ * be prose ("Rate is 0.02/min (...)") than SQL, and must not be folded into
+ * a single operand.  TRUE, FALSE and the MySQL NULL alias \N are numbers in
+ * the tokenizer, so they are excluded here.  The left side has to be a
+ * bareword: SQLite accepts IS with any operand, and payloads such as
+ * "' is 99999 = '" must keep folding as before.
+ */
+static int st_is_prose_is(const stoken_t *lhs, const stoken_t *op,
+                          const stoken_t *rhs) {
+    if (lhs->type != TYPE_BAREWORD || op->type != TYPE_OPERATOR ||
+        op->len != 2 || cstrcasecmp("IS", op->val, 2) != 0) {
+        return FALSE;
+    }
+    if (rhs->type == TYPE_BAREWORD) {
+        return TRUE;
+    }
+    if (rhs->type == TYPE_NUMBER) {
+        return !((rhs->len == 4 && cstrcasecmp("TRUE", rhs->val, 4) == 0) ||
+                 (rhs->len == 5 && cstrcasecmp("FALSE", rhs->val, 5) == 0) ||
+                 (rhs->len == 2 && rhs->val[0] == '\\' && rhs->val[1] == 'N'));
+    }
+    return FALSE;
+}
+
 static int st_is_unary_op(const stoken_t *st) {
     const char *str = st->val;
     const size_t len = st->len;
@@ -1516,7 +1553,9 @@ int libinjection_sqli_fold(struct libinjection_sqli_state *sf) {
             continue;
         } else if ((sf->tokenvec[left].type == TYPE_OPERATOR ||
                     sf->tokenvec[left].type == TYPE_LOGIC_OPERATOR) &&
-                   (st_is_unary_op(&sf->tokenvec[left + 1]) ||
+                   ((st_is_unary_op(&sf->tokenvec[left + 1]) &&
+                     !st_is_is_not(&sf->tokenvec[left],
+                                   &sf->tokenvec[left + 1])) ||
                     sf->tokenvec[left + 1].type == TYPE_SQLTYPE)) {
             pos -= 1;
             sf->stats_folds += 1;
@@ -1765,6 +1804,9 @@ int libinjection_sqli_fold(struct libinjection_sqli_state *sf) {
             continue;
         } else if (sf->tokenvec[left].type == TYPE_OPERATOR &&
                    sf->tokenvec[left + 1].type != TYPE_LEFTPARENS &&
+                   !(left > 0 && st_is_prose_is(&sf->tokenvec[left - 1],
+                                                &sf->tokenvec[left],
+                                                &sf->tokenvec[left + 1])) &&
                    sf->tokenvec[left + 2].type == TYPE_OPERATOR) {
             left = 0;
             pos -= 2;
@@ -1785,6 +1827,8 @@ int libinjection_sqli_fold(struct libinjection_sqli_state *sf) {
         } else if ((sf->tokenvec[left].type == TYPE_BAREWORD ||
                     sf->tokenvec[left].type == TYPE_NUMBER) &&
                    sf->tokenvec[left + 1].type == TYPE_OPERATOR &&
+                   !st_is_prose_is(&sf->tokenvec[left], &sf->tokenvec[left + 1],
+                                   &sf->tokenvec[left + 2]) &&
                    (sf->tokenvec[left + 2].type == TYPE_NUMBER ||
                     sf->tokenvec[left + 2].type == TYPE_BAREWORD)) {
             pos -= 2;

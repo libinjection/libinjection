@@ -1,0 +1,6 @@
+--TEST--
+SQLi, IS after a string still folds (valid in SQLite)
+--INPUT--
+' is 99999 = '
+--EXPECTED--
+sos

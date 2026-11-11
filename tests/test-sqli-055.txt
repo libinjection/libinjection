@@ -1,0 +1,6 @@
+--TEST--
+Not SQLi, prose: "word IS number" is not folded (libinjection/libinjection#106)
+--INPUT--
+Rate is 0.02/min (max 5)
+--EXPECTED--
+
