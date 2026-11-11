@@ -1,0 +1,6 @@
+--TEST--
+subquery injected after a closed tuple, numeric value
+--INPUT--
+1), (SELECT email FROM client) --
+--EXPECTED--
+1),(E
