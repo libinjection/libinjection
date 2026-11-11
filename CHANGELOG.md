@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.2](https://github.com/libinjection/libinjection/compare/v4.0.1...v4.0.2) (2026-11-11)
+
+
+### Bug Fixes
+
+* **sqli:** add missing MySQL charset introducers ([#101](https://github.com/libinjection/libinjection/issues/101)) ([1b9f5f0](https://github.com/libinjection/libinjection/commit/1b9f5f077fc10754e7e4b6498cdaa8fbee53d707))
+
 ## [4.0.1](https://github.com/libinjection/libinjection/compare/v4.0.0...v4.0.1) (2026-10-17)
 
 
