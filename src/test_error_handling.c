@@ -198,6 +198,13 @@ static void test_xss_url_whitespace(void) {
         {"unquoted href with &Tab;", "<a href=ja&Tab;vascript:alert(1)>x</a>"},
         {"backtick href with &Tab;",
          "<a href=`ja&Tab;vascript:alert(1)`>x</a>"},
+        {"complete prefix then a reference above 0xFF",
+         "<a href=\"java&#330;\">x</a>"},
+        {"complete prefix then a large hex reference",
+         "<a href=\"data&#x1004A;:\">x</a>"},
+        {"complete prefix then TAB", "<a href=\"java\t\">x</a>"},
+        {"raw TAB mixed with &#9; inside view-source",
+         "<a href=\"view-so\t&#9;urce:http://x\">x</a>"},
     };
     static const char *const benign[][2] = {
         {"http URL with &#9; and &Tab; is benign",
@@ -211,6 +218,9 @@ static void test_xss_url_whitespace(void) {
          "<a href=\"&#330;avascript:alert(1)\">x</a>"},
         {"&Tab cut off at end of input", "<a href=\"ja&Tab"},
         {"&NewLin cut off at end of input", "<a href=\"ja&NewLin"},
+        {"truncated &NewLin before the scheme",
+         "<a href=\"ja&NewLinvascript:alert(1)\">x</a>"},
+        {"&Tab; inside http is no scheme", "<a href=\"ht&Tab;tp://x\">x</a>"},
     };
     size_t i;
 
