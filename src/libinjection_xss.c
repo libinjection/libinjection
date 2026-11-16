@@ -4,6 +4,7 @@
 #include "libinjection_html5.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #define IS_HEX_ENTITY_PREFIX(src) (*(src + 2) == 'x' || *(src + 2) == 'X')
 
@@ -56,7 +57,12 @@ static const int gsHexDecodeMap[256] = {
  * and returns the corresponding character code, updating the number of
  * characters consumed during decoding.
  *
- * Note that this function does not handle named entities (e.g., &amp;).
+ * Named entities (e.g., &amp;) are not decoded, except &Tab; and &NewLine;:
+ * browsers strip the characters they produce from URLs, so leaving them
+ * encoded would let "ja&Tab;vascript:" bypass is_black_url(). These two are
+ * matched case-sensitively and only with the trailing ';', as in the WHATWG
+ * entity table; unlike the numeric forms below, "&tab;" and "&Tab" are not
+ * decoded because browsers do not decode them either.
  *
  * Note: The function assumes that the input string is well-formed and does not
  * perform extensive validation. This means it allows sequences without ';', eg
@@ -90,12 +96,22 @@ static int html_decode_char_at(const char *src, size_t len, size_t *consumed) {
 
     /*
      * check if the second character is '#'
-     * if not, return '&' (we don't handle named entities here)
+     * if not, it is a named entity (see below)
      */
     if (*(src + 1) != '#') {
-        /* normally this would be for named entities
-         * but for this case we don't actually care
+        /* named entities are not decoded, except the two that produce
+         * characters browsers strip from URLs (WHATWG URL parsing)
          */
+        if (len >= sizeof("&Tab;") - 1 &&
+            memcmp(src, "&Tab;", sizeof("&Tab;") - 1) == 0) {
+            *consumed = sizeof("&Tab;") - 1;
+            return 9;
+        }
+        if (len >= sizeof("&NewLine;") - 1 &&
+            memcmp(src, "&NewLine;", sizeof("&NewLine;") - 1) == 0) {
+            *consumed = sizeof("&NewLine;") - 1;
+            return 10;
+        }
         return '&';
     }
 
@@ -896,7 +912,8 @@ static int cstrcasecmp_with_null(const char *a, const char *b, size_t n) {
  * Does an HTML encoded binary string (const char*, length) start with
  * a all uppercase c-string (null terminated), case insensitive!
  *
- * also ignore any embedded nulls in the HTML string!
+ * also ignore any embedded nulls, TAB, LF and CR in the HTML string, since
+ * browsers strip TAB, LF and CR anywhere in a URL!
  *
  * @param a - the prefix to check for
  * @param b - the string to check
@@ -923,15 +940,15 @@ static int htmlencode_startswith(const char *a, const char *b, size_t n) {
         }
         first = 0;
 
-        if (cb == 0) {
-            /* always ignore null characters in user input */
+        if (cb == 0 || cb == 9 || cb == 10 || cb == 13) {
+            /* ignore nulls; browsers strip TAB, LF and CR anywhere in a URL */
             continue;
         }
 
-        if (cb == 10) {
-            /* always ignore vertical tab characters in user input */
-            /* who allows this?? */
-            continue;
+        if (cb > 255) {
+            /* a reference above 0xFF is no ASCII letter; do not let the
+             * (char) cast below truncate it into one (&#330; -> 'J') */
+            return 0;
         }
 
         if (cb >= 'a' && cb <= 'z') {

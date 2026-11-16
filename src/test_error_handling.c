@@ -165,6 +165,69 @@ static void test_html5_state_handling(void) {
 }
 
 /**
+ * Test that TAB, LF and CR inside a URL scheme do not hide it.
+ * Browsers strip them from URLs (GHSA-r97g-xfh2-h3jj).
+ */
+static void test_xss_url_whitespace(void) {
+    static const char *const cases[][2] = {
+        {"href with raw TAB", "<a href=\"ja\tvascript:alert(1)\">x</a>"},
+        {"href with raw CR", "<a href=\"ja\rvascript:alert(1)\">x</a>"},
+        {"href with &#9;", "<a href=\"ja&#9;vascript:alert(1)\">x</a>"},
+        {"href with &#x09;", "<a href=\"ja&#x09;vascript:alert(1)\">x</a>"},
+        {"href with &#13;", "<a href=\"ja&#13;vascript:alert(1)\">x</a>"},
+        {"href with &#10;", "<a href=\"ja&#10;vascript:alert(1)\">x</a>"},
+        {"href with &Tab;", "<a href=\"ja&Tab;vascript:alert(1)\">x</a>"},
+        {"href with &NewLine;",
+         "<a href=\"ja&NewLine;vascript:alert(1)\">x</a>"},
+        {"href with leading &Tab;",
+         "<a href=\"&Tab;javascript:alert(1)\">x</a>"},
+        {"form action with raw TAB", "<form action=\"ja\tvascript:alert(1)\">"},
+        {"button formaction with &#9;",
+         "<button formaction=\"ja&#9;vascript:alert(1)\">x</button>"},
+        {"vbscript with &#9;", "<a href=\"vb&#9;script:x\">x</a>"},
+        {"data with &#9;", "<a href=\"da&#9;ta:text/html,x\">x</a>"},
+        {"vbscript with &NewLine;", "<a href=\"vb&NewLine;script:x\">x</a>"},
+        {"view-source with &Tab;",
+         "<a href=\"view-so&Tab;urce:http://x\">x</a>"},
+        {"consecutive &Tab;&Tab;",
+         "<a href=\"ja&Tab;&Tab;vascript:alert(1)\">x</a>"},
+        {"&#9; mixed with &#0;",
+         "<a href=\"ja&#9;&#0;vascript:alert(1)\">x</a>"},
+        {"single-quoted href with &Tab;",
+         "<a href='ja&Tab;vascript:alert(1)'>x</a>"},
+        {"unquoted href with &Tab;", "<a href=ja&Tab;vascript:alert(1)>x</a>"},
+        {"backtick href with &Tab;",
+         "<a href=`ja&Tab;vascript:alert(1)`>x</a>"},
+    };
+    static const char *const benign[][2] = {
+        {"http URL with &#9; and &Tab; is benign",
+         "<a href=\"http://ex&#9;ample.com/&Tab;\">x</a>"},
+        {"lowercase &tab; is not decoded",
+         "<a href=\"ja&tab;vascript:alert(1)\">x</a>"},
+        {"&Tab without semicolon is not decoded",
+         "<a href=\"ja&Tabvascript:alert(1)\">x</a>"},
+        {"raw VT is not stripped", "<a href=\"ja\vvascript:alert(1)\">x</a>"},
+        {"&#330; is not 'J' (no truncation to a scheme letter)",
+         "<a href=\"&#330;avascript:alert(1)\">x</a>"},
+        {"&Tab cut off at end of input", "<a href=\"ja&Tab"},
+        {"&NewLin cut off at end of input", "<a href=\"ja&NewLin"},
+    };
+    size_t i;
+
+    for (i = 0; i < sizeof(cases) / sizeof(cases[0]); i++) {
+        TEST_START(cases[i][0]);
+        TEST_END(libinjection_xss(cases[i][1], strlen(cases[i][1])) ==
+                 LIBINJECTION_RESULT_TRUE);
+    }
+
+    for (i = 0; i < sizeof(benign) / sizeof(benign[0]); i++) {
+        TEST_START(benign[i][0]);
+        TEST_END(libinjection_xss(benign[i][1], strlen(benign[i][1])) ==
+                 LIBINJECTION_RESULT_FALSE);
+    }
+}
+
+/**
  * Test that library no longer calls abort() on error
  * This is more of a smoke test - if the process crashes, test fails
  */
@@ -232,6 +295,7 @@ int main(void) {
     test_normal_inputs();
     test_edge_cases();
     test_html5_state_handling();
+    test_xss_url_whitespace();
     test_no_abort_on_error();
     test_backward_compatibility();
 

