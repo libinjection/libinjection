@@ -50,6 +50,25 @@ static const int gsHexDecodeMap[256] = {
     256};
 
 /**
+ * Named entities that html_decode_char_at() decodes: the only ones that
+ * produce characters browsers strip from URLs (WHATWG URL parsing), so
+ * leaving them encoded would let "ja&Tab;vascript:" bypass is_black_url().
+ * They are matched case-sensitively and only with the trailing ';', as in the
+ * WHATWG entity table.
+ */
+typedef struct stripped_entity {
+    const char *name;
+    size_t len;
+    int val;
+} stripped_entity_t;
+
+#define STRIPPED_ENTITY(str, value)                                            \
+    { str, sizeof(str) - 1, value }
+
+static const stripped_entity_t stripped_entities[] = {
+    STRIPPED_ENTITY("&Tab;", 9), STRIPPED_ENTITY("&NewLine;", 10)};
+
+/**
  * @brief Decode HTML character entities in numeric form.
  *
  * This function decodes HTML character entities in numeric form, both decimal
@@ -57,12 +76,10 @@ static const int gsHexDecodeMap[256] = {
  * and returns the corresponding character code, updating the number of
  * characters consumed during decoding.
  *
- * Named entities (e.g., &amp;) are not decoded, except &Tab; and &NewLine;:
- * browsers strip the characters they produce from URLs, so leaving them
- * encoded would let "ja&Tab;vascript:" bypass is_black_url(). These two are
- * matched case-sensitively and only with the trailing ';', as in the WHATWG
- * entity table; unlike the numeric forms below, "&tab;" and "&Tab" are not
- * decoded because browsers do not decode them either.
+ * Named entities (e.g., &amp;) are not decoded, except the ones in
+ * stripped_entities (&Tab; and &NewLine;). Unlike the numeric forms below,
+ * "&tab;" and "&Tab" are not decoded, because browsers do not decode them
+ * either.
  *
  * Note: The function assumes that the input string is well-formed and does not
  * perform extensive validation. This means it allows sequences without ';', eg
@@ -99,18 +116,17 @@ static int html_decode_char_at(const char *src, size_t len, size_t *consumed) {
      * if not, it is a named entity (see below)
      */
     if (*(src + 1) != '#') {
-        /* named entities are not decoded, except the two that produce
-         * characters browsers strip from URLs (WHATWG URL parsing)
-         */
-        if (len >= sizeof("&Tab;") - 1 &&
-            memcmp(src, "&Tab;", sizeof("&Tab;") - 1) == 0) {
-            *consumed = sizeof("&Tab;") - 1;
-            return 9;
-        }
-        if (len >= sizeof("&NewLine;") - 1 &&
-            memcmp(src, "&NewLine;", sizeof("&NewLine;") - 1) == 0) {
-            *consumed = sizeof("&NewLine;") - 1;
-            return 10;
+        /* named entities are not decoded, except the ones in
+         * stripped_entities */
+        for (i = 0;
+             i < sizeof(stripped_entities) / sizeof(stripped_entities[0]);
+             i++) {
+            if (len >= stripped_entities[i].len &&
+                memcmp(src, stripped_entities[i].name,
+                       stripped_entities[i].len) == 0) {
+                *consumed = stripped_entities[i].len;
+                return stripped_entities[i].val;
+            }
         }
         return '&';
     }
