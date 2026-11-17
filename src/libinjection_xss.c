@@ -62,7 +62,8 @@ typedef struct stripped_entity {
     int val;
 } stripped_entity_t;
 
-#define STRIPPED_ENTITY(str, value) {str, sizeof(str) - 1, value}
+#define STRIPPED_ENTITY(str, value)                                            \
+    { str, sizeof(str) - 1, value }
 
 static const stripped_entity_t stripped_entities[] = {
     STRIPPED_ENTITY("&Tab;", 9), STRIPPED_ENTITY("&NewLine;", 10)};
