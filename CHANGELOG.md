@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.3](https://github.com/libinjection/libinjection/compare/v4.0.2...v4.0.3) (2026-11-23)
+
+
+### Bug Fixes
+
+* **xss:** guard and tidy the TAB/CR URL scheme fix (GHSA-r97g-xfh2-h3jj) ([#109](https://github.com/libinjection/libinjection/issues/109)) ([fdcb5fc](https://github.com/libinjection/libinjection/commit/fdcb5fcb59cd7cd22190aa98083d4cd84cade4c3))
+
 ## [4.0.2](https://github.com/libinjection/libinjection/compare/v4.0.1...v4.0.2) (2026-11-11)
 
 
