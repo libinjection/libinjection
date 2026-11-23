@@ -4660,7 +4660,6 @@ static const keyword_t sql_keywords[] = {
     {"0NOF(1", 'F'},
     {"0NOF(E", 'F'},
     {"0NOF(F", 'F'},
-    {"0NOF(N", 'F'},
     {"0NOF(S", 'F'},
     {"0NOF(V", 'F'},
     {"0NOK&(", 'F'},
