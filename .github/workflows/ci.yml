@@ -56,20 +56,47 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-24.04, ubuntu-26.04]
         platform: [x32, x64]
         compiler: [gcc, clang]
+    env:
+      # -m32 goes in CC, not CFLAGS: the pedantic step below overrides CFLAGS
+      # on the make command line, which would silently drop it.
+      CC: ${{ matrix.compiler }}${{ matrix.platform == 'x32' && ' -m32' || '' }}
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # ratchet:actions/checkout@v5
       - name: Setup Dependencies
         run: |
+          if [ "${{ matrix.platform }}" = x32 ]; then
+            # libc6-dbg:i386 lets valgrind set up its mandatory ld.so
+            # redirections for 32-bit binaries
+            sudo dpkg --add-architecture i386
+          fi
           sudo apt-get update -y -qq
-          sudo apt-get install valgrind
+          sudo apt-get install -y valgrind ${{ matrix.compiler == 'clang' && 'clang' || '' }}
+          if [ "${{ matrix.platform }}" = x32 ]; then
+            sudo apt-get install -y gcc-multilib libc6-dbg:i386
+          fi
       - name: build
         run: |
           ./autogen.sh
           ./configure
           make
+      - name: check the matrix toolchain was used
+        run: |
+          so=$(ls src/.libs/libinjection.so.*.*.*)
+          file "$so"
+          readelf -p .comment "$so"
+          want_class=${{ matrix.platform == 'x32' && '32' || '64' }}
+          file "$so" | grep -q "ELF ${want_class}-bit" ||
+            { echo "::error::expected a ${want_class}-bit library"; exit 1; }
+          if [ "${{ matrix.compiler }}" = clang ]; then
+            readelf -p .comment "$so" | grep -qi clang ||
+              { echo "::error::library was not built by clang"; exit 1; }
+          else
+            ! readelf -p .comment "$so" | grep -qi clang ||
+              { echo "::error::library was built by clang, expected gcc"; exit 1; }
+          fi
       - name: check version sync
         run: make check-version-sync
       - name: test
@@ -93,8 +120,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        # No compiler axis: the steps never select one, so a gcc/clang split
+        # ran the same build twice with the default cc (Apple clang). Fewer
+        # jobs also queue less for the capacity-limited macOS arm64 runners.
         os: [macos-15, macos-26]
-        compiler: [gcc, clang]
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # ratchet:actions/checkout@v5
 
